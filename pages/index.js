@@ -57,8 +57,6 @@ export default function Home({posts}) {
                       <Divider />
 
                       <Typography.Text>{currentPost.caption}</Typography.Text>
-
-                      <Typography.Text>{currentPost.hashtags.join(" ")}</Typography.Text>
                   </div>
               </Drawer>
             )}
