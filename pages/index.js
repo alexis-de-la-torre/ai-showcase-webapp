@@ -11,7 +11,7 @@ const Grid = styled.div`
 `;
 
 export async function getServerSideProps() {
-    const res = await fetch("https://fake-ig.adlt.dev/api/v1/posts")
+    const res = await fetch("https://fake-ig.ai-showcase.stg.adlt.dev/api/v1/posts")
     const posts = await res.json();
 
     return {
