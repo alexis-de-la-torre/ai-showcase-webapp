@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styled from "styled-components"
-import {Carousel, Divider, Drawer, Spin, Typography} from "antd"
+import {Button, Carousel, Divider, Drawer, Popconfirm, Spin, Typography} from "antd"
 import {useEffect, useRef, useState} from "react"
 import InfiniteScroll from 'react-infinite-scroll-component'
 // import InfiniteScroll from 'react-awesome-infinite-scroll';
@@ -78,6 +78,25 @@ export default function Home({postsInit}) {
         loadMoreData()
     }
 
+    const handleClick = () => {
+        if (currentPost == null) return;
+
+        fetch("https://influencer.ai-showcase.stg.adlt.dev/api/v1/posts", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "title": "",
+                "description": currentPost.caption,
+                "hashtags": [],
+                "imageUrls": currentPost.imageUrls,
+                "instagramId": "17841453531332190"
+            })
+        })
+    }
+
     // console.log(posts)
 
     return (
@@ -117,6 +136,15 @@ export default function Home({postsInit}) {
                       <Divider />
 
                       <Typography.Text>{currentPost.caption}</Typography.Text>
+
+                      <Divider />
+
+                      <Popconfirm
+                        title="Sure?"
+                        onConfirm={handleClick}
+                      >
+                          <Button>📷 Publish to Instagram</Button>
+                      </Popconfirm>
                   </div>
               </Drawer>
             )}
