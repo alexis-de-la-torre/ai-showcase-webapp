@@ -1,16 +1,39 @@
 import Image from 'next/image'
 import styled from "styled-components"
-import {Carousel, Divider, Drawer, Spin, Typography} from "antd"
-import {useEffect, useRef, useState} from "react"
+import {Button, Carousel, Drawer, Popconfirm, Space, Spin, Typography} from "antd"
+import {useRef, useState} from "react"
 import InfiniteScroll from 'react-infinite-scroll-component'
-// import InfiniteScroll from 'react-awesome-infinite-scroll';
 
 const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 2px;
-  line-height: 0;
+    display: grid;
+    gap: 2px;
+    line-height: 0;
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(3, auto);
+  }
+
+  @media screen and (min-width: 800px) {
+    grid-template-columns: repeat(4, auto);
+  }
+  
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(6, auto);
+  }
 `;
+
+const StyledDrawer = styled(Drawer)`
+  .ant-drawer-body, 
+  .ant-drawer-body > * {
+    //padding-left: 0;
+    //padding-right: 0;
+    padding: 0;
+  }
+`
+
+const StyledText = styled(Typography.Paragraph)`
+  //white-space: pre-line;
+`
 
 export async function getServerSideProps() {
     const res = await fetch("https://fake-ig.ai-showcase.stg.adlt.dev/api/v1/posts?pageSize=25&pageNo=0")
@@ -64,10 +87,6 @@ export default function Home({postsInit}) {
         }
     }
 
-    // useEffect(() => {
-    //     loadMoreData();
-    // }, [])
-
     const showModal = post => {
         setCurrentPost(post)
         setModalVisible(true)
@@ -76,6 +95,25 @@ export default function Home({postsInit}) {
     const refresh = () => {
         setPosts([])
         loadMoreData()
+    }
+
+    const handleClick = () => {
+        if (currentPost == null) return;
+
+        fetch("https://influencer.ai-showcase.stg.adlt.dev/api/v1/posts", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "title": "",
+                "description": currentPost.caption,
+                "hashtags": [],
+                "imageUrls": currentPost.imageUrls,
+                "instagramId": "17841453531332190"
+            })
+        })
     }
 
     // console.log(posts)
@@ -103,22 +141,34 @@ export default function Home({postsInit}) {
             </InfiniteScroll>
 
             {currentPost !== null && (
-              <Drawer visible={isModalVisible}
-                      onClose={() => setModalVisible(false)}
-                      footer={null}>
-                  <div style={{paddingLeft: 10, paddingRight: 10}}>
-                      <Carousel>
-                          {currentPost.imageUrls.map((image, i) => (
-                            <Image key={i} width={780}
-                                   height={844} src={image} />
-                          ))}
-                      </Carousel>
+              <StyledDrawer visible={isModalVisible}
+                            onClose={() => setModalVisible(false)}
+                            footer={null}>
 
-                      <Divider />
+                  <Carousel dotPosition={"top"} key={currentPost.id}>
+                      {currentPost.imageUrls.map((image, i) => (
+                        <Image key={i} width={780}
+                               height={844} src={image} />
+                      ))}
+                  </Carousel>
 
-                      <Typography.Text>{currentPost.caption}</Typography.Text>
+                  <div style={{paddingLeft: 48, paddingRight: 24, marginTop: 12}}>
+                      <Space direction={"vertical"} size="middle">
+                          <StyledText
+                            ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}
+                          >
+                              {currentPost.caption}
+                          </StyledText>
+
+                          <Popconfirm
+                            title="Sure?"
+                            onConfirm={handleClick}
+                          >
+                              <Button>📷 Publish to Instagram</Button>
+                          </Popconfirm>
+                      </Space>
                   </div>
-              </Drawer>
+              </StyledDrawer>
             )}
         </>
     )
