@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styled from "styled-components"
-import {Button, Carousel, Drawer, Popconfirm, Space, Spin, Typography} from "antd"
+import {Avatar, Button, Carousel, Col, Drawer, Popconfirm, Row, Space, Spin, Typography} from "antd"
 import {useRef, useState} from "react"
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -25,10 +25,17 @@ const Grid = styled.div`
 const StyledDrawer = styled(Drawer)`
   .ant-drawer-body, 
   .ant-drawer-body > * {
-    //padding-left: 0;
-    //padding-right: 0;
     padding: 0;
   }
+`
+
+const StyledDiv = styled('div')`
+    background-color: white;
+    position:fixed;
+    top:0;
+    //width:100%;
+    z-index:100;
+    box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.2);
 `
 
 const StyledText = styled(Typography.Paragraph)`
@@ -117,26 +124,44 @@ export default function Home({postsInit}) {
     }
 
     return (
-        <>
-            <InfiniteScroll
-              next={loadMoreData}
-              hasMore={hasMore}
-              loader={<Spin />}
-              dataLength={posts.length}
-              pullDownToRefresh
-              refreshFunction={refresh}
-            >
-                <section>
-                    <Grid>
-                        {posts?.map((post, i) => (
-                          <div key={i} onClick={() => showModal(post)}>
-                              <Image width={780} height={844}
-                                     src={post.imageUrls[0]} />
-                          </div>
-                        ))}
-                    </Grid>
-                </section>
-            </InfiniteScroll>
+        <div>
+            <StyledDiv style={{
+                height: 50,
+                padding: 5,
+                paddingLeft: 20,
+                width: "100%",
+
+            }}>
+                <div style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    width: "fit-content",
+                }}>
+                    <Avatar src={"avatar.jpg"} size="large"/>
+                </div>
+            </StyledDiv>
+
+            <div style={{marginTop: 50}}>
+                <InfiniteScroll
+                  next={loadMoreData}
+                  hasMore={hasMore}
+                  loader={<Spin />}
+                  dataLength={posts.length}
+                  pullDownToRefresh
+                  refreshFunction={refresh}
+                >
+                    <section>
+                        <Grid>
+                            {posts?.map((post, i) => (
+                              <div key={i} onClick={() => showModal(post)}>
+                                  <Image width={780} height={844}
+                                         src={post.imageUrls[0]} />
+                              </div>
+                            ))}
+                        </Grid>
+                    </section>
+                </InfiniteScroll>
+            </div>
 
             {currentPost !== null && (
               <StyledDrawer visible={isModalVisible}
@@ -169,6 +194,6 @@ export default function Home({postsInit}) {
                   </div>
               </StyledDrawer>
             )}
-        </>
+        </div>
     )
 }
