@@ -116,8 +116,6 @@ export default function Home({postsInit}) {
         })
     }
 
-    // console.log(posts)
-
     return (
         <>
             <InfiniteScroll
@@ -156,6 +154,7 @@ export default function Home({postsInit}) {
                       <Space direction={"vertical"} size="middle">
                           <StyledText
                             ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}
+                            key={currentPost.id}
                           >
                               {currentPost.caption}
                           </StyledText>
