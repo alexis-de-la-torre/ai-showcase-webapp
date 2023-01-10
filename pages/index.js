@@ -188,7 +188,7 @@ export default function Home({postsInit}) {
                             title="Sure?"
                             onConfirm={handleClick}
                           >
-                              <Button>📷 Publish to Instagram</Button>
+                              <Button loading={loading}>📷 Publish to Instagram</Button>
                           </Popconfirm>
                       </Space>
                   </div>
