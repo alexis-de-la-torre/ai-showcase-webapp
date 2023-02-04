@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["storage.googleapis.com"]
+  },
+  experimental: {
+    appDir: true
   }
 }
 

@@ -1,199 +1,61 @@
-import Image from 'next/image'
-import styled from "styled-components"
-import {Avatar, Button, Carousel, Col, Drawer, Popconfirm, Row, Space, Spin, Typography} from "antd"
-import {useRef, useState} from "react"
-import InfiniteScroll from 'react-infinite-scroll-component'
+import {Button, Input, Space, Typography} from "antd"
+import Image from "next/image.js"
+import {useState} from "react"
 
-const Grid = styled.div`
-    display: grid;
-    gap: 2px;
-    line-height: 0;
+const westworldAddr = "https://westworld.ai-showcase.stg.adlt.dev/api/v1/generations/karlo?"
 
-  @media screen and (max-width: 800px) {
-    grid-template-columns: repeat(3, auto);
-  }
+export default function GeneratePage() {
+    const [imgSrc, setImageSrc] =
+      useState("https://storage.googleapis.com/ai-showcase-stg/a33d19a1-0029-4e57-bd23-58f3eb32b08c.jpg")
 
-  @media screen and (min-width: 800px) {
-    grid-template-columns: repeat(4, auto);
-  }
-  
-  @media screen and (min-width: 1200px) {
-    grid-template-columns: repeat(6, auto);
-  }
-`;
-
-const StyledDrawer = styled(Drawer)`
-  .ant-drawer-body, 
-  .ant-drawer-body > * {
-    padding: 0;
-  }
-`
-
-const StyledDiv = styled('div')`
-    background-color: white;
-    position:fixed;
-    top:0;
-    //width:100%;
-    z-index:100;
-    box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.2);
-`
-
-const StyledText = styled(Typography.Paragraph)`
-  //white-space: pre-line;
-`
-
-export async function getServerSideProps() {
-    const res = await fetch("https://fake-ig.ai-showcase.stg.adlt.dev/api/v1/posts?pageSize=25&pageNo=0")
-    const posts = await res.json();
-
-    return {
-        props: {
-            postsInit: posts.content
-        }
-    }
-}
-
-export default function Home({postsInit}) {
-    const [posts, setPosts] = useState(postsInit)
-
-    const [isModalVisible, setModalVisible] = useState(false)
-    const [currentPost, setCurrentPost] = useState(null)
+    const [prompt, setPrompt] = useState("")
 
     const [loading, setLoading] = useState(false)
-    let [page, setPage] = useState(1)
-    const [hasMore, setHasMore] = useState(true)
 
-    const sendRequestRef = useRef(true)
+    const handleGenerate = prompt => {
+        setLoading(true)
 
-    const loadMoreData = () => {
-        if (loading) return
+        setPrompt(prompt)
 
-        if(sendRequestRef.current === true) {
-            sendRequestRef.current = false;
+        fetch(westworldAddr + new URLSearchParams({
+            promp: prompt,
+            qty: 1
+        }))
+          .then((res) => res.json())
+          .then((body) => {
 
-            setLoading(true)
+              setImageSrc(body.urls[0])
 
-            fetch(`https://fake-ig.ai-showcase.stg.adlt.dev/api/v1/posts?pageSize=25&pageNo=${page}`)
-              .then((res) => res.json())
-              .then((body) => {
-                  setPosts(current => {
-                      return [...current, ...body.content]
-                  });
-                  setLoading(false);
-                  setHasMore(!body.empty)
-              })
-              .catch(() => {
-                  setLoading(false);
-              });
-
-            setPage(currentPage => {
-                return page + 1
-            });
-
-            sendRequestRef.current = true;
-        }
-    }
-
-    const showModal = post => {
-        setCurrentPost(post)
-        setModalVisible(true)
-    };
-
-    const refresh = () => {
-        setPosts([])
-        loadMoreData()
-    }
-
-    const handleClick = () => {
-        if (currentPost == null) return;
-
-        fetch("https://influencer.ai-showcase.stg.adlt.dev/api/v1/posts", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "title": "",
-                "description": currentPost.caption,
-                "hashtags": [],
-                "imageUrls": currentPost.imageUrls,
-                "instagramId": "17841453531332190"
-            })
-        })
+              setLoading(false);
+          })
+          .catch(() => {
+              setLoading(false);
+          });
     }
 
     return (
-        <div>
-            <StyledDiv style={{
-                height: 50,
-                padding: 5,
-                paddingLeft: 20,
-                width: "100%",
+      <div style={{ paddingTop: 85, paddingRight: 26, paddingLeft: 26, minHeight: '90vh' }}>
+          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <Input.Search
+                allowClear
+                enterButton="Generate"
+                size="large"
+                onSearch={handleGenerate}
+                loading={loading}
+              />
 
-            }}>
-                <div style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    width: "fit-content",
-                }}>
-                    <Avatar src={"avatar.jpg"} size="large"/>
-                </div>
-            </StyledDiv>
+              <Image
+                width={780}
+                 height={844}
+                 src={imgSrc}
+                 alt="alt"
+                 layout="responsive"
+              />
 
-            <div style={{marginTop: 50}}>
-                <InfiniteScroll
-                  next={loadMoreData}
-                  hasMore={hasMore}
-                  loader={<Spin />}
-                  dataLength={posts.length}
-                  pullDownToRefresh
-                  refreshFunction={refresh}
-                >
-                    <section>
-                        <Grid>
-                            {posts?.map((post, i) => (
-                              <div key={i} onClick={() => showModal(post)}>
-                                  <Image width={780} height={844}
-                                         src={post.imageUrls[0]} />
-                              </div>
-                            ))}
-                        </Grid>
-                    </section>
-                </InfiniteScroll>
-            </div>
-
-            {currentPost !== null && (
-              <StyledDrawer visible={isModalVisible}
-                            onClose={() => setModalVisible(false)}
-                            footer={null}>
-
-                  <Carousel dotPosition={"top"} key={currentPost.id}>
-                      {currentPost.imageUrls.map((image, i) => (
-                        <Image key={i} width={780}
-                               height={844} src={image} />
-                      ))}
-                  </Carousel>
-
-                  <div style={{paddingLeft: 48, paddingRight: 24, marginTop: 12}}>
-                      <Space direction={"vertical"} size="middle">
-                          <StyledText
-                            ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}
-                            key={currentPost.id}
-                          >
-                              {currentPost.caption}
-                          </StyledText>
-
-                          <Popconfirm
-                            title="Sure?"
-                            onConfirm={handleClick}
-                          >
-                              <Button loading={loading}>📷 Publish to Instagram</Button>
-                          </Popconfirm>
-                      </Space>
-                  </div>
-              </StyledDrawer>
-            )}
-        </div>
+              <Typography.Paragraph>
+                  {}
+              </Typography.Paragraph>
+          </Space>
+      </div>
     )
 }
