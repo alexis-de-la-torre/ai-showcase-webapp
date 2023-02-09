@@ -1,36 +1,36 @@
-import {Button, Input, Space, Typography} from "antd"
+import {Input, Select, Space, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 
-const westworldAddr = "https://westworld.ai-showcase.stg.adlt.dev/api/v1/generations/karlo?"
+const westworldAddr = "https://westworld.ai-showcase.stg.adlt.dev/api/v1/generations"
 
 export default function GeneratePage() {
     const [imgSrc, setImageSrc] =
-      useState("https://storage.googleapis.com/ai-showcase-stg/a33d19a1-0029-4e57-bd23-58f3eb32b08c.jpg")
-
-    const [prompt, setPrompt] = useState("")
-
+      useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
+    const [prompt, setPrompt] = useState("painting of a beautiful woman surrounded by flowers")
     const [loading, setLoading] = useState(false)
+    const [model, setModel] = useState("stable-diffusion")
 
     const handleGenerate = prompt => {
         setLoading(true)
 
-        setPrompt(prompt)
+        const params =
+          new URLSearchParams({ promp: prompt, qty: 1 })
 
-        fetch(westworldAddr + new URLSearchParams({
-            promp: prompt,
-            qty: 1
-        }))
-          .then((res) => res.json())
-          .then((body) => {
-
+        fetch(westworldAddr + "/" + model + "?" + params)
+          .then(res => res.json())
+          .then(body => {
               setImageSrc(body.urls[0])
-
-              setLoading(false);
+              setLoading(false)
+              setPrompt(prompt)
           })
           .catch(() => {
-              setLoading(false);
+              setLoading(false)
           });
+    }
+
+    const handleModelChange = model => {
+        setModel(model)
     }
 
     return (
@@ -44,6 +44,17 @@ export default function GeneratePage() {
                 loading={loading}
               />
 
+              <Select
+                defaultValue="stable-diffusion"
+                onChange={handleModelChange}
+                options={[
+                    { label: "Stable Diffusion", value: "stable-diffusion" },
+                    { label: "Karlo", value: "karlo" },
+                ]}
+                size="large"
+                style={{ minWidth: 150 }}
+              />
+
               <Image
                 width={780}
                  height={844}
@@ -53,7 +64,7 @@ export default function GeneratePage() {
               />
 
               <Typography.Paragraph>
-                  {}
+                  {prompt}
               </Typography.Paragraph>
           </Space>
       </div>
