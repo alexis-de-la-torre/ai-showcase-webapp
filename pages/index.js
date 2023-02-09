@@ -11,7 +11,7 @@ export default function GeneratePage() {
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
 
-    const [nextPrompt, setNextPrompt] = useState("painting of a beautiful bear surrounded by flowers")
+    const [nextPrompt, setNextPrompt] = useState("")
 
     const handleGenerate = () => {
         setLoading(true)
@@ -49,7 +49,7 @@ export default function GeneratePage() {
                         rows={2}
                         loading={loading}
                         onChange={handleWrite}
-                        defaultValue="painting of a beautiful bear surrounded by flowers"
+                        defaultValue=""
                       />
 
                       <Space>
