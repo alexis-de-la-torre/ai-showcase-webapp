@@ -40,7 +40,7 @@ export default function GeneratePage() {
     }
 
     return (
-      <div style={{ paddingTop: 85, paddingRight: 16, paddingLeft: 16, minHeight: '90vh' }}>
+      <div style={{ paddingTop: 75, paddingRight: 16, paddingLeft: 16, minHeight: '90vh' }}>
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>

@@ -12,7 +12,9 @@ const StyledHeader = styled(Header)`
   align-items: center;
   background: white;
   justify-content: space-between;
-  padding: 22px;
+  padding-left: 22px;
+  padding-right: 22px;
+  height: 54px;
 
   position:fixed;
   top:0;
@@ -44,7 +46,7 @@ function MyApp({ Component, pageProps }) {
     return (
     <Layout>
         <StyledHeader>
-            <Avatar src={"avatar.jpg"} size="large"/>
+            <Avatar src={"avatar.jpg"}/>
 
             <Button icon={<MenuOutlined />} type="ghost"
             onClick={() => setIsMenuDrawerOpen(true)}/>
