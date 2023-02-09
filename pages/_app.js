@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
             <StyledDrawer
               open={isMenuDrawerOpen}
               onClose={() => setIsMenuDrawerOpen(false)}
-              placement="left"
+              placement="top"
             >
                 <Menu
                   defaultSelectedKeys={['generate']}
