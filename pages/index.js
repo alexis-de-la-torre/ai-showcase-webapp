@@ -1,4 +1,4 @@
-import {Card, Input, Select, Space, Typography} from "antd"
+import {Button, Card, Input, Select, Space, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 
@@ -11,18 +11,20 @@ export default function GeneratePage() {
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
 
-    const handleGenerate = prompt => {
+    const [nextPrompt, setNextPrompt] = useState("")
+
+    const handleGenerate = () => {
         setLoading(true)
 
         const params =
-          new URLSearchParams({ promp: prompt, qty: 1 })
+          new URLSearchParams({ promp: nextPrompt, qty: 1 })
 
         fetch(westworldAddr + "/" + model + "?" + params)
           .then(res => res.json())
           .then(body => {
               setImageSrc(body.urls[0])
               setLoading(false)
-              setPrompt(prompt)
+              setPrompt(nextPrompt)
           })
           .catch(() => {
               setLoading(false)
@@ -33,29 +35,42 @@ export default function GeneratePage() {
         setModel(model)
     }
 
+    const handleWrite = ev => {
+        setNextPrompt(ev.target.value)
+    }
+
     return (
       <div style={{ paddingTop: 85, paddingRight: 16, paddingLeft: 16, minHeight: '90vh' }}>
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <Card>
-                  <Space direction="vertical">
-                      <Input.Search
+                  <Space direction="vertical" style={{ width: '100%' }}>
+                      <Input.TextArea
                         allowClear
-                        enterButton="Generate"
-                        size="large"
-                        onSearch={handleGenerate}
+                        rows={2}
                         loading={loading}
+                        onChange={handleWrite}
                       />
 
-                      <Select
-                        defaultValue="stable-diffusion"
-                        onChange={handleModelChange}
-                        options={[
-                            { label: "Stable Diffusion", value: "stable-diffusion" },
-                            { label: "Karlo", value: "karlo" },
-                        ]}
-                        size="large"
-                        style={{ minWidth: 150 }}
-                      />
+                      <Space>
+                          <Select
+                            defaultValue="stable-diffusion"
+                            onChange={handleModelChange}
+                            options={[
+                                { label: "Stable Diffusion", value: "stable-diffusion" },
+                                { label: "Karlo", value: "karlo" },
+                            ]}
+                            style={{ minWidth: "100%" }}
+                          />
+
+                          <Button
+                            type="primary"
+                            block
+                            onClick={handleGenerate}
+                            loading={loading}
+                          >
+                              Generate
+                          </Button>
+                      </Space>
                   </Space>
               </Card>
 
