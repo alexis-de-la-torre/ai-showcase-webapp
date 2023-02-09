@@ -77,9 +77,7 @@ function MyApp({ Component, pageProps }) {
               <Component {...pageProps} />
           </Content>
           <Footer
-            style={{
-              textAlign: 'center',
-            }}
+            style={{ textAlign: 'center'}}
           >
               AI Showcase - ADLT
           </Footer>
