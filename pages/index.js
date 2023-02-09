@@ -59,7 +59,7 @@ export default function GeneratePage() {
                                 { label: "Stable Diffusion", value: "stable-diffusion" },
                                 { label: "Karlo", value: "karlo" },
                             ]}
-                            style={{ minWidth: "100%" }}
+                            style={{ minWidth: 150 }}
                           />
 
                           <Button
