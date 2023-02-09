@@ -19,7 +19,7 @@ const StyledHeader = styled(Header)`
   position:fixed;
   top:0;
   z-index:100;
-  box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.2);
+  //box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.2);
   
   width: 100vw;
   
