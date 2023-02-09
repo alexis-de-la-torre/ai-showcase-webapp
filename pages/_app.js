@@ -56,18 +56,7 @@ function MyApp({ Component, pageProps }) {
             >
                 <Menu
                   defaultSelectedKeys={['generate']}
-                  // items={[
-                  //     {
-                  //         key: 1,
-                  //         icon: React.createElement(BulbOutlined),
-                  //         label: "Generate",
-                  //     },
-                  //     {
-                  //         key: 1,
-                  //         icon: React.createElement(EyeOutlined),
-                  //         label: "View",
-                  //     }
-                  // ]}
+                  onClick={() => setIsMenuDrawerOpen(false)}
                 >
                     <Menu.Item key="generate" icon={<BulbOutlined/>}>
                         <Link href="/">
@@ -92,40 +81,11 @@ function MyApp({ Component, pageProps }) {
               textAlign: 'center',
             }}
           >
-            Ant Design ©2023 Created by Ant UED
+
           </Footer>
         </Layout>
     </Layout>
     )
 }
-
-// const StyledDiv = styled('div')`
-//     background-color: white;
-//     position:fixed;
-//     top:0;
-//     z-index:100;
-//     box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.2);
-// `
-
-// function MyApp({ Component, pageProps }) {
-//   return <>
-//     <StyledDiv style={{
-//       height: 50,
-//       padding: 5,
-//       paddingLeft: 20,
-//       width: "100%",
-//     }}>
-//       <div style={{
-//         marginLeft: "auto",
-//         marginRight: "auto",
-//         width: "fit-content",
-//       }}>
-//         <Avatar src={"avatar.jpg"} size="large"/>
-//       </div>
-//     </StyledDiv>
-//
-//     <Component {...pageProps} />
-//   </>
-// }
 
 export default MyApp
