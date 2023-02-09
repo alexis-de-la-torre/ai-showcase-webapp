@@ -35,18 +35,16 @@ const StyledDrawer = styled(Drawer)`
   }
 `
 
-const StyledSpace = styled(Space)`
-  display: flex;
-  justify-content: center;
-`
-
 function MyApp({ Component, pageProps }) {
     const [isMenuDrawerOpen, setIsMenuDrawerOpen] = useState(false)
 
     return (
     <Layout>
         <StyledHeader>
-            <Avatar src={"avatar.jpg"}/>
+            <Space align="center">
+                <Avatar src={"avatar.jpg"}/>
+                <Typography.Title style={{margin: 0}} level={4}>AI Showcase</Typography.Title>
+            </Space>
 
             <Button icon={<MenuOutlined />} type="ghost"
             onClick={() => setIsMenuDrawerOpen(true)}/>
