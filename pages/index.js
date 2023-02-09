@@ -1,4 +1,4 @@
-import {Input, Select, Space, Typography} from "antd"
+import {Card, Input, Select, Space, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 
@@ -34,40 +34,45 @@ export default function GeneratePage() {
     }
 
     return (
-      <div style={{ paddingTop: 85, paddingRight: 26, paddingLeft: 26, minHeight: '90vh' }}>
+      <div style={{ paddingTop: 85, paddingRight: 16, paddingLeft: 16, minHeight: '90vh' }}>
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <Space direction="vertical">
-                  <Input.Search
-                    allowClear
-                    enterButton="Generate"
-                    size="large"
-                    onSearch={handleGenerate}
-                    loading={loading}
+              <Card>
+                  <Space direction="vertical">
+                      <Input.Search
+                        allowClear
+                        enterButton="Generate"
+                        size="large"
+                        onSearch={handleGenerate}
+                        loading={loading}
+                      />
+
+                      <Select
+                        defaultValue="stable-diffusion"
+                        onChange={handleModelChange}
+                        options={[
+                            { label: "Stable Diffusion", value: "stable-diffusion" },
+                            { label: "Karlo", value: "karlo" },
+                        ]}
+                        size="large"
+                        style={{ minWidth: 150 }}
+                      />
+                  </Space>
+              </Card>
+
+              <Card
+                cover={
+                  <Image
+                    width={780}
+                    height={844}
+                    src={imgSrc}
+                    alt="alt"
+                    layout="responsive"
                   />
+                }
+              >
 
-                  <Select
-                    defaultValue="stable-diffusion"
-                    onChange={handleModelChange}
-                    options={[
-                        { label: "Stable Diffusion", value: "stable-diffusion" },
-                        { label: "Karlo", value: "karlo" },
-                    ]}
-                    size="large"
-                    style={{ minWidth: 150 }}
-                  />
-              </Space>
-
-              <Image
-                width={780}
-                 height={844}
-                 src={imgSrc}
-                 alt="alt"
-                 layout="responsive"
-              />
-
-              <Typography.Paragraph>
-                  {prompt}
-              </Typography.Paragraph>
+                  <Card.Meta description={prompt}/>
+              </Card>
           </Space>
       </div>
     )
