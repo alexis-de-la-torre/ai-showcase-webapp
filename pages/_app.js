@@ -80,6 +80,7 @@ function MyApp({ Component, pageProps }) {
             style={{ textAlign: 'center'}}
           >
               {/*Made by <a href="https://github.com/alexis-de-la-torre">Alexis De La Torre</a>*/}
+              <Typography.Text>Generate images with Text2Img AI Models</Typography.Text>
           </Footer>
         </Layout>
     </Layout>

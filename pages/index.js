@@ -1,4 +1,4 @@
-import {Button, Card, Input, Select, Space, Typography} from "antd"
+import {Button, Card, Input, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 
@@ -86,7 +86,10 @@ export default function GeneratePage() {
                 }
               >
 
-                  <Card.Meta description={prompt}/>
+                  <Space direction="vertical">
+                      <Card.Meta description={prompt}/>
+                      <Tag>{model}</Tag>
+                  </Space>
               </Card>
           </Space>
       </div>
