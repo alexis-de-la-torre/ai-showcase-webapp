@@ -81,7 +81,7 @@ function MyApp({ Component, pageProps }) {
               textAlign: 'center',
             }}
           >
-
+              AI Showcase - ADLT
           </Footer>
         </Layout>
     </Layout>
