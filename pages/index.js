@@ -36,24 +36,26 @@ export default function GeneratePage() {
     return (
       <div style={{ paddingTop: 85, paddingRight: 26, paddingLeft: 26, minHeight: '90vh' }}>
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <Input.Search
-                allowClear
-                enterButton="Generate"
-                size="large"
-                onSearch={handleGenerate}
-                loading={loading}
-              />
+              <Space direction="vertical">
+                  <Input.Search
+                    allowClear
+                    enterButton="Generate"
+                    size="large"
+                    onSearch={handleGenerate}
+                    loading={loading}
+                  />
 
-              <Select
-                defaultValue="stable-diffusion"
-                onChange={handleModelChange}
-                options={[
-                    { label: "Stable Diffusion", value: "stable-diffusion" },
-                    { label: "Karlo", value: "karlo" },
-                ]}
-                size="large"
-                style={{ minWidth: 150 }}
-              />
+                  <Select
+                    defaultValue="stable-diffusion"
+                    onChange={handleModelChange}
+                    options={[
+                        { label: "Stable Diffusion", value: "stable-diffusion" },
+                        { label: "Karlo", value: "karlo" },
+                    ]}
+                    size="large"
+                    style={{ minWidth: 150 }}
+                  />
+              </Space>
 
               <Image
                 width={780}
