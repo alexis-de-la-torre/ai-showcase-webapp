@@ -41,10 +41,7 @@ function MyApp({ Component, pageProps }) {
     return (
     <Layout>
         <StyledHeader>
-            <Space align="center">
-                <Avatar src={"avatar.jpg"}/>
-                <Typography.Title style={{margin: 0}} level={4}>AI Showcase</Typography.Title>
-            </Space>
+            <Typography.Title style={{margin: 0}} level={5}>🤖🎨 AI Image Generator</Typography.Title>
 
             <Button icon={<MenuOutlined />} type="ghost"
             onClick={() => setIsMenuDrawerOpen(true)}/>
@@ -79,7 +76,7 @@ function MyApp({ Component, pageProps }) {
           <Footer
             style={{ textAlign: 'center'}}
           >
-              AI Showcase - ADLT
+              Made by <a href="https://github.com/alexis-de-la-torre">Alexis De La Torre</a>
           </Footer>
         </Layout>
     </Layout>

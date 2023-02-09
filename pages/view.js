@@ -134,7 +134,7 @@ export default function Home({postsInit}) {
 
     return (
         <div>
-            <div style={{marginTop: 65}}>
+            <div style={{marginTop: 55}}>
                 <InfiniteScroll
                   next={loadMoreData}
                   hasMore={hasMore}
