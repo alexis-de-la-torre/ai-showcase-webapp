@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }) {
     return (
     <Layout>
         <StyledHeader>
-            <Space align="center" style={{ minWidth: 125 }}>
+            <Space align="center" style={{ minWidth: 200 }}>
                 <Typography.Title style={{margin: 0}} level={5}>🤖🎨</Typography.Title>
                 <Typography.Title style={{margin: 0, lineHeight: 1}} level={5}>AI Image Generator</Typography.Title>
             </Space>
@@ -49,24 +49,13 @@ function MyApp({ Component, pageProps }) {
             <Menu
               defaultSelectedKeys={['generate']}
               mode="horizontal"
+              style={{ width: "50%" }}
             >
                 <Menu.Item key="generate" icon={<BulbOutlined/>}>
                     <Link href="/">
                         Generate
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="view" icon={<EyeOutlined/>}>
-                    <Link href="/view">
-                        View
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="view" icon={<EyeOutlined/>}>
-                    <Link href="/view">
-                        View
-                    </Link>
-                </Menu.Item>
-
                 <Menu.Item key="view" icon={<EyeOutlined/>}>
                     <Link href="/view">
                         View
