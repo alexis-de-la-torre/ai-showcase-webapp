@@ -13,8 +13,8 @@ const StyledHeader = styled(Header)`
   background: white;
   justify-content: space-between;
   padding-left: 22px;
-  padding-right: 22px;
-  height: 54px;
+  padding-right: 0;
+  height: 64px;
 
   position:fixed;
   top:0;
@@ -41,35 +41,63 @@ function MyApp({ Component, pageProps }) {
     return (
     <Layout>
         <StyledHeader>
-            <Space align="center" size="middle">
+            <Space align="center" style={{ minWidth: 125 }}>
                 <Typography.Title style={{margin: 0}} level={5}>🤖🎨</Typography.Title>
-                <Typography.Title style={{margin: 0}} level={5}>AI Image Generator</Typography.Title>
+                <Typography.Title style={{margin: 0, lineHeight: 1}} level={5}>AI Image Generator</Typography.Title>
             </Space>
 
-            <Button icon={<MenuOutlined />} type="ghost"
-            onClick={() => setIsMenuDrawerOpen(true)}/>
-
-            <StyledDrawer
-              open={isMenuDrawerOpen}
-              onClose={() => setIsMenuDrawerOpen(false)}
-              placement="top"
+            <Menu
+              defaultSelectedKeys={['generate']}
+              mode="horizontal"
             >
-                <Menu
-                  defaultSelectedKeys={['generate']}
-                  onClick={() => setIsMenuDrawerOpen(false)}
-                >
-                    <Menu.Item key="generate" icon={<BulbOutlined/>}>
-                        <Link href="/">
-                            Generate
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="view" icon={<EyeOutlined/>}>
-                        <Link href="/view">
-                            View
-                        </Link>
-                    </Menu.Item>
-                </Menu>
-            </StyledDrawer>
+                <Menu.Item key="generate" icon={<BulbOutlined/>}>
+                    <Link href="/">
+                        Generate
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="view" icon={<EyeOutlined/>}>
+                    <Link href="/view">
+                        View
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="view" icon={<EyeOutlined/>}>
+                    <Link href="/view">
+                        View
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="view" icon={<EyeOutlined/>}>
+                    <Link href="/view">
+                        View
+                    </Link>
+                </Menu.Item>
+            </Menu>
+
+            {/*<Button icon={<MenuOutlined />} type="ghost"*/}
+            {/*onClick={() => setIsMenuDrawerOpen(true)}/>*/}
+
+            {/*<StyledDrawer*/}
+            {/*  open={isMenuDrawerOpen}*/}
+            {/*  onClose={() => setIsMenuDrawerOpen(false)}*/}
+            {/*  placement="top"*/}
+            {/*>*/}
+            {/*    <Menu*/}
+            {/*      defaultSelectedKeys={['generate']}*/}
+            {/*      onClick={() => setIsMenuDrawerOpen(false)}*/}
+            {/*    >*/}
+            {/*        <Menu.Item key="generate" icon={<BulbOutlined/>}>*/}
+            {/*            <Link href="/">*/}
+            {/*                Generate*/}
+            {/*            </Link>*/}
+            {/*        </Menu.Item>*/}
+            {/*        <Menu.Item key="view" icon={<EyeOutlined/>}>*/}
+            {/*            <Link href="/view">*/}
+            {/*                View*/}
+            {/*            </Link>*/}
+            {/*        </Menu.Item>*/}
+            {/*    </Menu>*/}
+            {/*</StyledDrawer>*/}
         </StyledHeader>
 
         <Layout>
@@ -80,7 +108,7 @@ function MyApp({ Component, pageProps }) {
             style={{ textAlign: 'center'}}
           >
               {/*Made by <a href="https://github.com/alexis-de-la-torre">Alexis De La Torre</a>*/}
-              <Typography.Text>Generate images with Text2Img AI Models</Typography.Text>
+              <Typography.Text>Generate images with Text2Img Artificial intelligence Models</Typography.Text>
           </Footer>
         </Layout>
     </Layout>
