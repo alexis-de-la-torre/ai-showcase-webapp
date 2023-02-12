@@ -51,10 +51,12 @@ function MyApp({ Component, pageProps }) {
     return (
     <Layout>
         <StyledHeader>
-            <Space align="center" style={{ minWidth: 200, marginRight: 22 }}>
-                <Typography.Title style={{margin: 0}} level={5}>🤖🎨</Typography.Title>
-                <Typography.Title style={{margin: 0, lineHeight: 1}} level={5}>AI Image Generator</Typography.Title>
-            </Space>
+            <Link href="/">
+                <Space align="center" style={{ minWidth: 200, marginRight: 22 }}>
+                    <Typography.Title style={{margin: 0}} level={5}>🤖🎨</Typography.Title>
+                    <Typography.Title style={{margin: 0, lineHeight: 1}} level={5}>AI Image Generator</Typography.Title>
+                </Space>
+            </Link>
 
             <Menu
               defaultSelectedKeys={['generate']}
