@@ -3,6 +3,7 @@ import Image from "next/image.js"
 import {useState} from "react"
 import {useUser} from "../auth/useUser.js"
 import withAuth from "../auth/withAuth.js"
+import fetchClient from "../fetchClient.js"
 
 const westworldAddr = "https://westworld.ai-showcase.stg.adlt.dev/api/v1/generations"
 
@@ -23,9 +24,10 @@ function GeneratePage() {
         const params =
           new URLSearchParams({ promp: nextPrompt, qty: 1 })
 
-        fetch(westworldAddr + "/" + model + "?" + params)
-          .then(res => res.json())
+        fetchClient.get(westworldAddr + "/" + model + "?" + params)
+          .then(res => res.data)
           .then(body => {
+              console.log(body)
               setImageSrc(body.urls[0])
               setLoading(false)
               setPrompt(nextPrompt)
