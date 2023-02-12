@@ -3,6 +3,7 @@ import styled from "styled-components"
 import {Avatar, Button, Carousel, Drawer, Popconfirm, Space, Spin, Typography, message} from "antd"
 import {useRef, useState} from "react"
 import InfiniteScroll from 'react-infinite-scroll-component'
+import withAuth from "../auth/withAuth.js"
 
 const Grid = styled.div`
     display: grid;
@@ -39,7 +40,7 @@ export async function getServerSideProps() {
     }
 }
 
-export default function Home({postsInit}) {
+function ViewPage({postsInit}) {
     const [posts, setPosts] = useState(postsInit)
 
     const [isModalVisible, setModalVisible] = useState(false)
@@ -194,3 +195,5 @@ export default function Home({postsInit}) {
         </div>
     )
 }
+
+export default withAuth(ViewPage)
