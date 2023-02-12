@@ -1,11 +1,28 @@
 import '../styles/globals.css'
 import 'antd/dist/antd.css';
-import {Avatar, Button, Drawer, Layout, Menu, Space, Typography} from "antd"
+import {Layout, Menu, Space, Typography} from "antd"
 import styled from "styled-components"
-import { UploadOutlined, UserOutlined, VideoCameraOutlined, MenuOutlined, BulbOutlined, EyeOutlined } from '@ant-design/icons';
+import { BulbOutlined, EyeOutlined, LogoutOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
-import React, {useState} from 'react';
+import React from 'react';
 import Link from "next/link.js"
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import {useUser} from "../auth/useUser.js"
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD5LaNkP0J-fJMUOHBKXmf5FwB8PXYzgtA",
+    authDomain: "adlt-2.firebaseapp.com",
+    projectId: "adlt-2",
+    storageBucket: "adlt-2.appspot.com",
+    messagingSenderId: "270361315804",
+    appId: "1:270361315804:web:7114ffa2b93b4172b7a719"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const StyledHeader = styled(Header)`
   display: flex;
@@ -19,7 +36,6 @@ const StyledHeader = styled(Header)`
   position:fixed;
   top:0;
   z-index:100;
-  //box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.2);
   
   width: 100vw;
   
@@ -29,14 +45,8 @@ const StyledHeader = styled(Header)`
   }
 `
 
-const StyledDrawer = styled(Drawer)`
-  .ant-drawer-body {
-    padding: 0;
-  }
-`
-
 function MyApp({ Component, pageProps }) {
-    const [isMenuDrawerOpen, setIsMenuDrawerOpen] = useState(false)
+    const { user, logout } = useUser();
 
     return (
     <Layout>
@@ -61,32 +71,12 @@ function MyApp({ Component, pageProps }) {
                         View
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                    <Link href="#" legacyBehavior>
+                        <a onClick={() => logout(false)}>Log Out</a>
+                    </Link>
+                </Menu.Item>
             </Menu>
-
-            {/*<Button icon={<MenuOutlined />} type="ghost"*/}
-            {/*onClick={() => setIsMenuDrawerOpen(true)}/>*/}
-
-            {/*<StyledDrawer*/}
-            {/*  open={isMenuDrawerOpen}*/}
-            {/*  onClose={() => setIsMenuDrawerOpen(false)}*/}
-            {/*  placement="top"*/}
-            {/*>*/}
-            {/*    <Menu*/}
-            {/*      defaultSelectedKeys={['generate']}*/}
-            {/*      onClick={() => setIsMenuDrawerOpen(false)}*/}
-            {/*    >*/}
-            {/*        <Menu.Item key="generate" icon={<BulbOutlined/>}>*/}
-            {/*            <Link href="/">*/}
-            {/*                Generate*/}
-            {/*            </Link>*/}
-            {/*        </Menu.Item>*/}
-            {/*        <Menu.Item key="view" icon={<EyeOutlined/>}>*/}
-            {/*            <Link href="/view">*/}
-            {/*                View*/}
-            {/*            </Link>*/}
-            {/*        </Menu.Item>*/}
-            {/*    </Menu>*/}
-            {/*</StyledDrawer>*/}
         </StyledHeader>
 
         <Layout>

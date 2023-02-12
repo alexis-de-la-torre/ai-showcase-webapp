@@ -1,10 +1,14 @@
 import {Button, Card, Input, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
+import {useUser} from "../auth/useUser.js"
+import withAuth from "../auth/withAuth.js"
 
 const westworldAddr = "https://westworld.ai-showcase.stg.adlt.dev/api/v1/generations"
 
-export default function GeneratePage() {
+function GeneratePage() {
+    const { user, logout } = useUser();
+
     const [imgSrc, setImageSrc] =
       useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
     const [prompt, setPrompt] = useState("painting of a beautiful woman surrounded by flowers")
@@ -96,3 +100,5 @@ export default function GeneratePage() {
       </div>
     )
 }
+
+export default withAuth(GeneratePage)

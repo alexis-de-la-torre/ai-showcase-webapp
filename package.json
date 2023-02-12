@@ -9,9 +9,13 @@
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "antd": "^4.22.4",
+    "firebase": "^9.17.1",
+    "js-cookie": "^3.0.1",
     "next": "^13.1.6",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-firebase-hooks": "^5.1.1",
+    "react-firebaseui": "^6.0.0",
     "react-infinite-scroll-component": "^6.1.0",
     "styled-components": "^5.3.5"
   },
