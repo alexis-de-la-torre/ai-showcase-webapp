@@ -4,7 +4,7 @@ import {Layout, Menu, Space, Typography} from "antd"
 import styled from "styled-components"
 import { BulbOutlined, EyeOutlined, LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
-import React from 'react';
+import React, {useEffect} from 'react';
 import Link from "next/link.js"
 
 import firebase from 'firebase/compat/app';
@@ -48,10 +48,20 @@ const StyledHeader = styled(Header)`
 function MyApp({ Component, pageProps }) {
     const { user, logout } = useUser();
 
-    if (!user) {
-        console.log("No user, anonymous login")
-        firebase.auth().signInAnonymously()
-    }
+    useEffect(() => {
+        let t;
+
+        if (!user) {
+            t = setTimeout(() => {
+                console.log("No user, anonymous login")
+                firebase.auth().signInAnonymously()
+            }, 500)
+        }
+
+        return () => {
+            clearTimeout(t)
+        }
+    }, [user])
 
     return (
       <Layout>
@@ -78,7 +88,7 @@ function MyApp({ Component, pageProps }) {
                           View
                       </Link>
                   </Menu.Item>
-                  {user && !user.email && (
+                  {!user || (user && !user.email) && (
                     <Menu.Item key="login" icon={<LoginOutlined />}>
                         <Link href="/signin">
                             Sign In
