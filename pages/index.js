@@ -55,7 +55,7 @@ function GeneratePage() {
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
                       <StyledAlert
-                        message="Write anything in the box. An AI will try its bests to generate an image."
+                        message="Write anything. An AI will try its best to generate an image based on your text."
                         type="info"
                         showIcon
                         closable
