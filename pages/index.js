@@ -8,8 +8,8 @@ import styled from "styled-components"
 const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
 
 const StyledAlert = styled(Alert)`
-  line-height: 1.3;
-  font-size: small;
+  line-height: 1.1;
+  font-size: x-small;
 `
 
 function GeneratePage() {
