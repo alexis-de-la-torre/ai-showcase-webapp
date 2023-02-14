@@ -5,7 +5,7 @@ import {useUser} from "../auth/useUser.js"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 
-const westworldAddr = "https://westworld.ai-showcase.stg.adlt.dev/api/v1/generations"
+const westworldAddr = "https://ai-image-creator-5187-3g7a5ae4.ue.gateway.dev"
 
 function GeneratePage() {
     const { user, logout } = useUser();
