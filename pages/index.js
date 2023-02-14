@@ -1,7 +1,6 @@
 import {Alert, Button, Card, Input, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
-import {useUser} from "../auth/useUser.js"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 import styled from "styled-components"
@@ -14,15 +13,15 @@ const StyledAlert = styled(Alert)`
 `
 
 function GeneratePage() {
-    const { user, logout } = useUser();
+    const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
 
     const [imgSrc, setImageSrc] =
       useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
-    const [prompt, setPrompt] = useState("painting of a beautiful woman surrounded by flowers")
+    const [prompt, setPrompt] = useState(defaultPrompt)
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
 
-    const [nextPrompt, setNextPrompt] = useState("painting of a bear surrounded by flowers, dramatic lighting")
+    const [nextPrompt, setNextPrompt] = useState(defaultPrompt)
 
     const handleGenerate = () => {
         setLoading(true)
@@ -56,7 +55,7 @@ function GeneratePage() {
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
                       <StyledAlert
-                        message="Write anything in the box. An AI will try its bests to generate an image for you"
+                        message="Write anything in the box. An AI will try its bests to generate an image."
                         type="info"
                         showIcon
                         closable
@@ -67,7 +66,7 @@ function GeneratePage() {
                         rows={3}
                         loading={loading}
                         onChange={handleWrite}
-                        defaultValue="painting of a bear surrounded by flowers, dramatic lighting"
+                        defaultValue={defaultPrompt}
                       />
 
                       <Space>
