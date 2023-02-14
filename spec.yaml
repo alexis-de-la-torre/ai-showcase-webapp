@@ -40,6 +40,26 @@ paths:
       responses:
         '200':
           description: A successful response
+  "/api/v1/generations/karlo":
+    get:
+      security:
+        - firebase: [ ]
+      operationId: westworldKarlo
+      description: Generate images with Karlo
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of generated images
+          schema:
+            type: array
+            items:
+              type: string
+    options:
+      operationId: corsHelloWorldT
+      responses:
+        '200':
+          description: A successful response
 definitions:
   Pet:
     type: object
