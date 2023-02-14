@@ -90,7 +90,7 @@ function GeneratePage() {
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
                       <Alert
-                        message="Write anything, then press the button. An AI will try its best to generate an image based on your text."
+                        message="Write anything, then press the button. An Artificial Intelligence will try its best to generate an image based on your text."
                         type="info"
                         showIcon
                         closable
