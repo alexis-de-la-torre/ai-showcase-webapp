@@ -78,16 +78,25 @@ function MyApp({ Component, pageProps }) {
                           View
                       </Link>
                   </Menu.Item>
-                  <Menu.Item key="login" icon={<LoginOutlined />}>
-                      <Link href="/signin">
-                          Sign In
-                      </Link>
-                  </Menu.Item>
-                  <Menu.Item key="logout" icon={<LogoutOutlined />}>
-                      <Link href="#" legacyBehavior>
-                          <a onClick={() => logout(false)}>Log Out</a>
-                      </Link>
-                  </Menu.Item>
+                  {user && !user.email && (
+                    <Menu.Item key="login" icon={<LoginOutlined />}>
+                        <Link href="/signin">
+                            Sign In
+                        </Link>
+                    </Menu.Item>
+                  )}
+                  {user && user.email && (
+                    <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                        <Link href="#" legacyBehavior>
+                            <a onClick={() => logout(false)}>Log Out</a>
+                        </Link>
+                    </Menu.Item>
+                  )}
+                  {user && user.email && (
+                    <Menu.Item key="user">
+                        {user.email}
+                    </Menu.Item>
+                  )}
               </Menu>
           </StyledHeader>
 
