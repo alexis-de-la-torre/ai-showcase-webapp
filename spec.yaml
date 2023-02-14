@@ -22,6 +22,8 @@ produces:
 paths:
   "/api/v1/generations/stable-diffusion":
     get:
+      security:
+        - firebase: [ ]
       operationId: westworldStableDiffusion
       description: Generate images with Stable Diffusion
       produces:
@@ -52,3 +54,11 @@ definitions:
         type: string
       tag:
         type: string
+securityDefinitions:
+  firebase:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://securetoken.google.com/adlt-2"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "adlt-2"
