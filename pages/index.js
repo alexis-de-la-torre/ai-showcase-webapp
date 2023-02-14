@@ -70,7 +70,7 @@ function GeneratePage() {
               if (error.response && error.response.status === 429) {
                   messageApi.open({
                       type: 'error',
-                      content: "Generation limit reached, try again in an hour. Or Sign In to enjoy a bigger limit",
+                      content: "Generation limit reached, try again in an hour. Or Sign In to enjoy a bigger limit.",
                   });
               }
 
