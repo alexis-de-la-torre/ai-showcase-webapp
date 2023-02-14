@@ -15,7 +15,7 @@ const StyledCollapse = styled(Collapse)`
 
 function GeneratePage() {
     const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
-    const defaultSteps = 35
+    const defaultSteps = 35;
 
     const [messageApi, contextHolder] = message.useMessage()
 
