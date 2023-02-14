@@ -1,0 +1,54 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: AI Image Creator API
+  description: API For the AI Image Creator Service
+  termsOfService: https://www.ai-image-creator.com/
+  contact:
+    name: adlt.dev
+host: "ai-image-creator-2210vm6ccgbfr.apigateway.adlt-2.cloud.goog"
+x-google-endpoints:
+  - name: "ai-image-creator-2210vm6ccgbfr.apigateway.adlt-2.cloud.goog"
+    allowCors: True
+x-google-backend:
+  address: https://westworld.ai-showcase.stg.adlt.dev
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  "/api/v1/generations/stable-diffusion":
+    get:
+      operationId: westworldStableDiffusion
+      description: Generate images with Stable Diffusion
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of generated images
+          schema:
+            type: array
+            items:
+              type: string
+    options:
+      operationId: corsHelloWorld
+      responses:
+        '200':
+          description: A successful response
+definitions:
+  Pet:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tag:
+        type: string
