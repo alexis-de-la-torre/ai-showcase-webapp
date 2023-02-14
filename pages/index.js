@@ -31,6 +31,11 @@ const StyledDiv = styled("div")`
   }
 `
 
+const StyledAlert = styled(Alert)`
+  line-height: 1.3;
+  font-size: x-small;
+`
+
 function GeneratePage() {
     const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
     const defaultSteps = 35;
@@ -87,7 +92,7 @@ function GeneratePage() {
       <StyledDiv>
           {contextHolder}
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <Alert
+              <StyledAlert
                 message={<span>Write anything in the text box, then press the button. <br/>An Artificial Intelligence will try its best to generate an image based on your text.</span>}
                 type="info"
                 showIcon
