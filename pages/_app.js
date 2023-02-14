@@ -10,6 +10,8 @@ import Link from "next/link.js"
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {useUser} from "../auth/useUser.js"
+import Head from "next/head.js"
+import Script from "next/script.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyD5LaNkP0J-fJMUOHBKXmf5FwB8PXYzgtA",
@@ -67,6 +69,23 @@ function MyApp({ Component, pageProps }) {
 
     return (
       <Layout>
+          <Head>
+              <title>AI Image Creator - Generate Images with Text2Img Artificial Intelligence models</title>
+          </Head>
+
+          <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`} />
+
+          <Script strategy="lazyOnload">
+              {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                    page_path: window.location.pathname,
+                    });
+                `}
+          </Script>
+
           <StyledHeader>
               <Link href="/">
                   <Space align="center" style={{ minWidth: 200, marginRight: 22 }}>
