@@ -95,11 +95,11 @@ function MyApp({ Component, pageProps }) {
                           Generate
                       </Link>
                   </Menu.Item>
-                  <Menu.Item key="view" icon={<EyeOutlined/>}>
-                      <Link href="/view">
-                          View
-                      </Link>
-                  </Menu.Item>
+                  {/*<Menu.Item key="view" icon={<EyeOutlined/>}>*/}
+                  {/*    <Link href="/view">*/}
+                  {/*        View*/}
+                  {/*    </Link>*/}
+                  {/*</Menu.Item>*/}
                   {!user || (user && !user.email) && (
                     <Menu.Item key="login" icon={<LoginOutlined />}>
                         <Link href="/signin">
