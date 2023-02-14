@@ -103,7 +103,7 @@ function GeneratePage() {
                   <Space direction="vertical" style={{ width: '100%' }}>
                       <Input.TextArea
                         allowClear
-                        rows={3}
+                        rows={4}
                         loading={loading}
                         onChange={handleWrite}
                         defaultValue={defaultPrompt}
