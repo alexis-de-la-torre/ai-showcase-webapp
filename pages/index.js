@@ -7,9 +7,10 @@ import styled from "styled-components"
 
 const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
 
-const StyledAlert = styled(Alert)`
-  line-height: 1.1;
-  font-size: x-small;
+const StyledCollapse = styled(Collapse)`
+  .ant-collapse-header {
+    padding: 0;
+  }
 `
 
 function GeneratePage() {
@@ -70,7 +71,7 @@ function GeneratePage() {
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
-                      <StyledAlert
+                      <Alert
                         message="Write anything, then press the button. An AI will try its best to generate an image based on your text."
                         type="info"
                         showIcon
@@ -85,7 +86,7 @@ function GeneratePage() {
                         defaultValue={defaultPrompt}
                       />
 
-                      <Collapse size="small" open>
+                      <StyledCollapse size="small" open>
                           <Collapse.Panel header="Advanced Options" key="0" >
                               <Space direction="vertical">
                                   <Space>
@@ -113,9 +114,8 @@ function GeneratePage() {
                                   </Space>
                               </Space>
                           </Collapse.Panel>
-                      </Collapse>
+                      </StyledCollapse>
 
-                      <Space>
 
 
                           <Button
@@ -127,7 +127,6 @@ function GeneratePage() {
                           >
                               Generate
                           </Button>
-                      </Space>
                   </Space>
               </Card>
 
