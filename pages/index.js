@@ -13,6 +13,24 @@ const StyledCollapse = styled(Collapse)`
   }
 `
 
+const StyledDiv = styled("div")`
+  padding-top: 86px;
+  min-height: 90vh;
+
+  padding-right: 22px;
+  padding-left: 22px;
+
+  @media (min-width: 768px) {
+    padding-right: 10vw;
+    padding-left: 10vw;
+  }
+
+  @media (min-width: 1100px) {
+    padding-right: 20vw;
+    padding-left: 20vw;
+  }
+`
+
 function GeneratePage() {
     const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
     const defaultSteps = 35;
@@ -66,7 +84,7 @@ function GeneratePage() {
     }
 
     return (
-      <div style={{ paddingTop: 64 + 22, paddingRight: 22, paddingLeft: 22, minHeight: '90vh' }}>
+      <StyledDiv>
           {contextHolder}
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <Card>
@@ -144,11 +162,11 @@ function GeneratePage() {
 
                   <Space direction="vertical">
                       <Card.Meta description={prompt}/>
-                      <Tag>{model}</Tag>
+                      <Tag>{model === "karlo" ? "Created by the Karlo AI Model" : "Created by the Stable Difussion AI Model"}</Tag>
                   </Space>
               </Card>
           </Space>
-      </div>
+      </StyledDiv>
     )
 }
 

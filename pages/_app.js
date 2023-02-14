@@ -147,7 +147,7 @@ function MyApp({ Component, pageProps }) {
                 style={{ textAlign: 'center'}}
               >
                   {/*Made by <a href="https://github.com/alexis-de-la-torre">Alexis De La Torre</a>*/}
-                  <Typography.Text>--</Typography.Text>
+                  <Typography.Text>🤖🎨</Typography.Text>
               </Footer>
           </Layout>
       </Layout>
