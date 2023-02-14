@@ -1,4 +1,4 @@
-import {Alert, Button, Card, Input, Select, Space, Tag, Typography} from "antd"
+import {Alert, Button, Card, Input, message, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -14,6 +14,8 @@ const StyledAlert = styled(Alert)`
 
 function GeneratePage() {
     const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
+
+    const [messageApi, contextHolder] = message.useMessage()
 
     const [imgSrc, setImageSrc] =
       useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
@@ -32,11 +34,22 @@ function GeneratePage() {
         fetchClient.get(westworldAddr + "/" + model + "?" + params)
           .then(res => res.data)
           .then(body => {
+              console.log(body)
+
               setImageSrc(body.urls[0])
               setLoading(false)
               setPrompt(nextPrompt)
           })
-          .catch(() => {
+          .catch(error => {
+              if (error.response.status === 429) {
+                  messageApi.open({
+                      type: 'error',
+                      content: "Generation limit reached, try again in an hour.",
+                  });
+              }
+
+              console.error(error)
+
               setLoading(false)
           });
     }
@@ -51,6 +64,7 @@ function GeneratePage() {
 
     return (
       <div style={{ paddingTop: 64 + 22, paddingRight: 22, paddingLeft: 22, minHeight: '90vh' }}>
+          {contextHolder}
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
