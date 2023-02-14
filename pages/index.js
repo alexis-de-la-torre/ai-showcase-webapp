@@ -1,4 +1,4 @@
-import {Alert, Button, Card, Collapse, Input, message, Select, Space, Tag, Typography} from "antd"
+import {Alert, Button, Card, Collapse, Input, InputNumber, message, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -14,6 +14,7 @@ const StyledAlert = styled(Alert)`
 
 function GeneratePage() {
     const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
+    const defaultSteps = 35
 
     const [messageApi, contextHolder] = message.useMessage()
 
@@ -22,6 +23,7 @@ function GeneratePage() {
     const [prompt, setPrompt] = useState(defaultPrompt)
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
+    const [steps, setSteps] = useState(defaultSteps)
 
     const [nextPrompt, setNextPrompt] = useState(defaultPrompt)
 
@@ -29,7 +31,7 @@ function GeneratePage() {
         setLoading(true)
 
         const params =
-          new URLSearchParams({ promp: nextPrompt, qty: 1 })
+          new URLSearchParams({ promp: nextPrompt, qty: 1, steps: steps })
 
         fetchClient.get(westworldAddr + "/" + model + "?" + params)
           .then(res => res.data)
@@ -41,7 +43,7 @@ function GeneratePage() {
               setPrompt(nextPrompt)
           })
           .catch(error => {
-              if (error.response.status === 429) {
+              if (error.response && error.response.status === 429) {
                   messageApi.open({
                       type: 'error',
                       content: "Generation limit reached, try again in an hour.",
@@ -83,19 +85,32 @@ function GeneratePage() {
                         defaultValue={defaultPrompt}
                       />
 
-                      <Collapse size="small">
-                          <Collapse.Panel header="More Options" key="0" >
-                              <Space>
-                                  <Typography>Model:</Typography>
-                                  <Select
-                                    defaultValue="stable-diffusion"
-                                    onChange={handleModelChange}
-                                    options={[
-                                        { label: "Stable Diffusion", value: "stable-diffusion" },
-                                        { label: "Karlo", value: "karlo" },
-                                    ]}
-                                    style={{ minWidth: 150 }}
-                                  />
+                      <Collapse size="small" open>
+                          <Collapse.Panel header="Advanced Options" key="0" >
+                              <Space direction="vertical">
+                                  <Space>
+                                      <Typography>Model:</Typography>
+                                      <Select
+                                        defaultValue="stable-diffusion"
+                                        onChange={handleModelChange}
+                                        options={[
+                                            { label: "Stable Diffusion", value: "stable-diffusion" },
+                                            { label: "Karlo", value: "karlo" },
+                                        ]}
+                                        style={{ minWidth: 150 }}
+                                      />
+                                  </Space>
+
+                                  <Space>
+                                      <Typography>Steps:</Typography>
+                                      <InputNumber
+                                        min={1}
+                                        max={50}
+                                        defaultValue={defaultSteps}
+                                        onChange={n => setSteps(n)}
+                                        style={{ minWidth: 150 }}
+                                      />
+                                  </Space>
                               </Space>
                           </Collapse.Panel>
                       </Collapse>
