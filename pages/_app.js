@@ -48,10 +48,10 @@ const StyledHeader = styled(Header)`
 function MyApp({ Component, pageProps }) {
     const { user, logout } = useUser();
 
-    if (!user) {
-        console.log("No user, anonymous login")
-        firebase.auth().signInAnonymously()
-    }
+    // if (!user) {
+    //     console.log("No user, anonymous login")
+    //     firebase.auth().signInAnonymously()
+    // }
 
     return (
       <Layout>
