@@ -1,11 +1,17 @@
-import {Button, Card, Input, Select, Space, Tag, Typography} from "antd"
+import {Alert, Button, Card, Input, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 import {useUser} from "../auth/useUser.js"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
+import styled from "styled-components"
 
 const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
+
+const StyledAlert = styled(Alert)`
+  line-height: 1.3;
+  font-size: small;
+`
 
 function GeneratePage() {
     const { user, logout } = useUser();
@@ -16,7 +22,7 @@ function GeneratePage() {
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
 
-    const [nextPrompt, setNextPrompt] = useState("")
+    const [nextPrompt, setNextPrompt] = useState("painting of a bear surrounded by flowers, dramatic lighting")
 
     const handleGenerate = () => {
         setLoading(true)
@@ -49,12 +55,19 @@ function GeneratePage() {
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
+                      <StyledAlert
+                        message="Write anything in the box. An AI will try its bests to generate an image for you"
+                        type="info"
+                        showIcon
+                        closable
+                      />
+
                       <Input.TextArea
                         allowClear
-                        rows={2}
+                        rows={3}
                         loading={loading}
                         onChange={handleWrite}
-                        defaultValue=""
+                        defaultValue="painting of a bear surrounded by flowers, dramatic lighting"
                       />
 
                       <Space>
