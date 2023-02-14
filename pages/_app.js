@@ -88,7 +88,7 @@ function MyApp({ Component, pageProps }) {
               <Menu
                 defaultSelectedKeys={['generate']}
                 mode="horizontal"
-                style={{ width: "50%" }}
+                style={{ width: "60%" }}
               >
                   <Menu.Item key="generate" icon={<BulbOutlined/>}>
                       <Link href="/">
