@@ -1,4 +1,4 @@
-import {Alert, Button, Card, Input, message, Select, Space, Tag, Typography} from "antd"
+import {Alert, Button, Card, Collapse, Input, message, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
 import {useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -83,22 +83,32 @@ function GeneratePage() {
                         defaultValue={defaultPrompt}
                       />
 
+                      <Collapse size="small">
+                          <Collapse.Panel header="More Options" key="0" >
+                              <Space>
+                                  <Typography>Model:</Typography>
+                                  <Select
+                                    defaultValue="stable-diffusion"
+                                    onChange={handleModelChange}
+                                    options={[
+                                        { label: "Stable Diffusion", value: "stable-diffusion" },
+                                        { label: "Karlo", value: "karlo" },
+                                    ]}
+                                    style={{ minWidth: 150 }}
+                                  />
+                              </Space>
+                          </Collapse.Panel>
+                      </Collapse>
+
                       <Space>
-                          <Select
-                            defaultValue="stable-diffusion"
-                            onChange={handleModelChange}
-                            options={[
-                                { label: "Stable Diffusion", value: "stable-diffusion" },
-                                { label: "Karlo", value: "karlo" },
-                            ]}
-                            style={{ minWidth: 150 }}
-                          />
+
 
                           <Button
                             type="primary"
                             block
                             onClick={handleGenerate}
                             loading={loading}
+                            size="large"
                           >
                               Generate
                           </Button>
