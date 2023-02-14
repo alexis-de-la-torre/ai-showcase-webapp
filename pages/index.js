@@ -5,7 +5,7 @@ import {useUser} from "../auth/useUser.js"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 
-const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR;
+const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
 
 function GeneratePage() {
     const { user, logout } = useUser();
