@@ -87,15 +87,15 @@ function GeneratePage() {
       <StyledDiv>
           {contextHolder}
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <Alert
+                message={<span>Write anything in the text box, then press the button. <br/>An Artificial Intelligence will try its best to generate an image based on your text.</span>}
+                type="info"
+                showIcon
+                closable
+              />
+
               <Card>
                   <Space direction="vertical" style={{ width: '100%' }}>
-                      <Alert
-                        message={<span>Write anything in the text box, then press the button. <br/>An Artificial Intelligence will try its best to generate an image based on your text.</span>}
-                        type="info"
-                        showIcon
-                        closable
-                      />
-
                       <Input.TextArea
                         allowClear
                         rows={3}
