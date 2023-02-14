@@ -12,7 +12,7 @@ const fetchClient = (() => {
     }
 
     const instance = axios.create({
-        baseURL: 'https://westworld.ai-showcase.stg.adlt.dev'
+        baseURL: process.env.API_ADDR
     });
 
     instance.interceptors.request.use(async (config) => {

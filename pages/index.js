@@ -5,7 +5,7 @@ import {useUser} from "../auth/useUser.js"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 
-const westworldAddr = "https://ai-image-creator-6178-3g7a5ae4.ue.gateway.dev"
+const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR
 
 function GeneratePage() {
     const { user, logout } = useUser();
