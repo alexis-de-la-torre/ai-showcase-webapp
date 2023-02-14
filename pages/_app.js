@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import 'antd/dist/antd.css';
 import {Layout, Menu, Space, Typography} from "antd"
 import styled from "styled-components"
-import { BulbOutlined, EyeOutlined, LogoutOutlined } from '@ant-design/icons';
+import { BulbOutlined, EyeOutlined, LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
 import React from 'react';
 import Link from "next/link.js"
@@ -48,51 +48,61 @@ const StyledHeader = styled(Header)`
 function MyApp({ Component, pageProps }) {
     const { user, logout } = useUser();
 
+    if (!user) {
+        console.log("No user, anonymous login")
+        firebase.auth().signInAnonymously()
+    }
+
     return (
-    <Layout>
-        <StyledHeader>
-            <Link href="/">
-                <Space align="center" style={{ minWidth: 200, marginRight: 22 }}>
-                    <Typography.Title style={{margin: 0}} level={5}>🤖🎨</Typography.Title>
-                    <Typography.Title style={{margin: 0, lineHeight: 1}} level={5}>AI Image Creator</Typography.Title>
-                </Space>
-            </Link>
+      <Layout>
+          <StyledHeader>
+              <Link href="/">
+                  <Space align="center" style={{ minWidth: 200, marginRight: 22 }}>
+                      <Typography.Title style={{margin: 0}} level={5}>🤖🎨</Typography.Title>
+                      <Typography.Title style={{margin: 0, lineHeight: 1}} level={5}>AI Image Creator</Typography.Title>
+                  </Space>
+              </Link>
 
-            <Menu
-              defaultSelectedKeys={['generate']}
-              mode="horizontal"
-              style={{ width: "50%" }}
-            >
-                <Menu.Item key="generate" icon={<BulbOutlined/>}>
-                    <Link href="/">
-                        Generate
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="view" icon={<EyeOutlined/>}>
-                    <Link href="/view">
-                        View
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="logout" icon={<LogoutOutlined />}>
-                    <Link href="#" legacyBehavior>
-                        <a onClick={() => logout(false)}>Log Out</a>
-                    </Link>
-                </Menu.Item>
-            </Menu>
-        </StyledHeader>
+              <Menu
+                defaultSelectedKeys={['generate']}
+                mode="horizontal"
+                style={{ width: "50%" }}
+              >
+                  <Menu.Item key="generate" icon={<BulbOutlined/>}>
+                      <Link href="/">
+                          Generate
+                      </Link>
+                  </Menu.Item>
+                  <Menu.Item key="view" icon={<EyeOutlined/>}>
+                      <Link href="/view">
+                          View
+                      </Link>
+                  </Menu.Item>
+                  <Menu.Item key="login" icon={<LoginOutlined />}>
+                      <Link href="/signin">
+                          Sign In
+                      </Link>
+                  </Menu.Item>
+                  <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                      <Link href="#" legacyBehavior>
+                          <a onClick={() => logout(false)}>Log Out</a>
+                      </Link>
+                  </Menu.Item>
+              </Menu>
+          </StyledHeader>
 
-        <Layout>
-          <Content>
-              <Component {...pageProps} />
-          </Content>
-          <Footer
-            style={{ textAlign: 'center'}}
-          >
-              {/*Made by <a href="https://github.com/alexis-de-la-torre">Alexis De La Torre</a>*/}
-              <Typography.Text>Generate images with Text2Img Artificial intelligence Models</Typography.Text>
-          </Footer>
-        </Layout>
-    </Layout>
+          <Layout>
+              <Content>
+                  <Component {...pageProps} />
+              </Content>
+              <Footer
+                style={{ textAlign: 'center'}}
+              >
+                  {/*Made by <a href="https://github.com/alexis-de-la-torre">Alexis De La Torre</a>*/}
+                  <Typography.Text>Generate images with Text2Img Artificial intelligence Models</Typography.Text>
+              </Footer>
+          </Layout>
+      </Layout>
     )
 }
 

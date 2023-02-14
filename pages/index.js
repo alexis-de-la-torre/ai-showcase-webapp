@@ -27,7 +27,6 @@ function GeneratePage() {
         fetchClient.get(westworldAddr + "/" + model + "?" + params)
           .then(res => res.data)
           .then(body => {
-              console.log(body)
               setImageSrc(body.urls[0])
               setLoading(false)
               setPrompt(nextPrompt)
