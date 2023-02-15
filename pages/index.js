@@ -55,7 +55,7 @@ function GeneratePage() {
         setLoading(true)
 
         window.dataLayer.push({
-            event: 'generate',
+            event: 'GENERATE_EVENTS',
             eventProps: {
                 action: 'click',
                 category: 'interaction',
@@ -73,7 +73,7 @@ function GeneratePage() {
               console.log(body)
 
               window.dataLayer.push({
-                  event: 'generate',
+                  event: 'GENERATE_EVENTS',
                   eventProps: {
                       action: 'receive',
                       category: 'result',
@@ -88,7 +88,7 @@ function GeneratePage() {
           })
           .catch(error => {
               window.dataLayer.push({
-                  event: 'generate',
+                  event: 'GENERATE_EVENTS',
                   eventProps: {
                       action: 'receive',
                       category: 'error',

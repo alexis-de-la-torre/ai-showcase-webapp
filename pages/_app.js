@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
 
     useEffect(() => {
         TagManager.initialize({ gtmId: 'GTM-5TXVP3Q' });
-    }, []);
+    }, [])
 
     useEffect(() => {
         // TODO: Figure out why timing breaks AuthUI
