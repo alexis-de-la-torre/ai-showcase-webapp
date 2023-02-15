@@ -54,6 +54,16 @@ function GeneratePage() {
     const handleGenerate = () => {
         setLoading(true)
 
+        window.dataLayer.push({
+            event: 'generate',
+            eventProps: {
+                action: 'click',
+                category: 'interaction',
+                label: 'generate',
+                value: `${model} - ${steps} steps - ${nextPrompt}`
+            }
+        });
+
         const params =
           new URLSearchParams({ promp: nextPrompt, qty: 1, steps: steps })
 
@@ -62,15 +72,40 @@ function GeneratePage() {
           .then(body => {
               console.log(body)
 
+              window.dataLayer.push({
+                  event: 'generate',
+                  eventProps: {
+                      action: 'receive',
+                      category: 'result',
+                      label: 'receive image from generate',
+                      value: body.urls[0]
+                  }
+              });
+
               setImageSrc(body.urls[0])
               setLoading(false)
               setPrompt(nextPrompt)
           })
           .catch(error => {
+              window.dataLayer.push({
+                  event: 'generate',
+                  eventProps: {
+                      action: 'receive',
+                      category: 'error',
+                      label: 'error receiving image from generate',
+                      value: error.response ? error.response.status : ''
+                  }
+              });
+
               if (error.response && error.response.status === 429) {
                   messageApi.open({
                       type: 'error',
                       content: "Generation limit reached, try again in an hour. Or Sign In to enjoy a bigger limit.",
+                  });
+              } else {
+                  messageApi.open({
+                      type: 'error',
+                      content: "There was an unexpected error, please try again later.",
                   });
               }
 

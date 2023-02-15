@@ -12,6 +12,7 @@ import 'firebase/compat/auth';
 import {useUser} from "../auth/useUser.js"
 import Head from "next/head.js"
 import Script from "next/script.js"
+import TagManager from "react-gtm-module/dist/TagManager.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyD5LaNkP0J-fJMUOHBKXmf5FwB8PXYzgtA",
@@ -49,6 +50,10 @@ const StyledHeader = styled(Header)`
 
 function MyApp({ Component, pageProps }) {
     const { user, logout } = useUser();
+
+    useEffect(() => {
+        TagManager.initialize({ gtmId: 'GTM-5TXVP3Q' });
+    }, []);
 
     useEffect(() => {
         // TODO: Figure out why timing breaks AuthUI
