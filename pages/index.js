@@ -165,7 +165,6 @@ function GeneratePage() {
               <StyledAlert
                 message={<span>1. <strong>Write anything</strong> in the text box. <br/> 2. Press the <strong>Generate</strong> button. <br/> 3. An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text.</span>}
                 type="info"
-                showIcon
                 closable
               />
 
