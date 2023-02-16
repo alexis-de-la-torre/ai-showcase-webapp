@@ -1,4 +1,18 @@
-import {Alert, Button, Card, Collapse, Form, Input, InputNumber, message, Select, Space, Tag, Typography} from "antd"
+import {
+    Alert,
+    Button,
+    Card,
+    Collapse,
+    Divider,
+    Form,
+    Input,
+    InputNumber,
+    message,
+    Select,
+    Space,
+    Tag,
+    Typography
+} from "antd"
 import { RedoOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import Image from "next/image.js"
 import {useEffect, useRef, useState} from "react"
@@ -246,7 +260,8 @@ function GeneratePage() {
                   <Space direction="vertical">
                       <Card.Meta description={prompt}/>
                       <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Difussion"}</Tag>
-                      <Button onClick={handleRegenerate} style={{ marginTop: 22 }} icon={<RedoOutlined />}>Generate Again</Button>
+                      <Divider />
+                      <Button onClick={handleRegenerate} icon={<RedoOutlined />}>Generate Again</Button>
                   </Space>
               </Card>
           </Space>
