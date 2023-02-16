@@ -260,7 +260,7 @@ function GeneratePage() {
                   <Space direction="vertical">
                       <Card.Meta description={prompt}/>
                       <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Difussion"}</Tag>
-                      <Divider />
+                      <Divider style={{ width: "100%" }}/>
                       <Button onClick={handleRegenerate} icon={<RedoOutlined />}>Generate Again</Button>
                   </Space>
               </Card>
