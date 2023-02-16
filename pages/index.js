@@ -66,6 +66,8 @@ function GeneratePage() {
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
 
+    const [disabled, setDisabled] = useState(true)
+
     useEffect(() => {
         if(textBox.current) {
             textBox.current.focus()
@@ -192,6 +194,13 @@ function GeneratePage() {
                                 // onChange={handleWrite}
                                 // defaultValue={defaultPrompt}
                                 ref={textBox}
+                                onChange={e => {
+                                    if (e.target.value === "") {
+                                        setDisabled(true)
+                                    }  else {
+                                        setDisabled(false)
+                                    }
+                                }}
                               />
                           </Form.Item>
 
@@ -233,6 +242,7 @@ function GeneratePage() {
                                 loading={loading}
                                 size="large"
                                 htmlType="submit"
+                                disabled={disabled}
                               >
                                   Generate
                               </Button>
