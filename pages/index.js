@@ -42,7 +42,7 @@ function GeneratePage() {
 
     const [messageApi, contextHolder] = message.useMessage()
 
-    const textBox = useRef(null)
+    const textBox = useRef(null);
 
     const [imgSrc, setImageSrc] =
       useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
