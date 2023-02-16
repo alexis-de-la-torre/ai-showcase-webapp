@@ -216,6 +216,7 @@ function GeneratePage() {
                                   Generate
                               </Button>
                           </Form.Item>
+                          <Typography.Text disabled>~11 Seconds to complete</Typography.Text>
                     </Space>
                   </Form>
               </Card>
