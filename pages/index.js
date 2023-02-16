@@ -141,7 +141,7 @@ function GeneratePage() {
           {contextHolder}
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <StyledAlert
-                message={<span>1. <strong>Write anything</strong> in the text box, then press the button. <br/> 2. An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text.</span>}
+                message={<span>1. <strong>Write anything</strong> in the text box, then press the button. <br/> 2. An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text. <br/> 3. Check the example below if you are not sure what to write.</span>}
                 type="info"
                 showIcon
                 closable
