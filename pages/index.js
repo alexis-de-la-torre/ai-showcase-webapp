@@ -1,5 +1,5 @@
 import {Alert, Button, Card, Collapse, Form, Input, InputNumber, message, Select, Space, Tag, Typography} from "antd"
-import { RedoOutlined } from '@ant-design/icons';
+import { RedoOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import Image from "next/image.js"
 import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -216,7 +216,10 @@ function GeneratePage() {
                                   Generate
                               </Button>
                           </Form.Item>
-                          <Typography.Text size="small" disabled>~11 Seconds to complete</Typography.Text>
+                        <Space >
+                            <Typography.Text style={{ fontSize: "small" }} disabled><ClockCircleOutlined /></Typography.Text>
+                            <Typography.Text style={{ fontSize: "small" }} disabled>~11 Seconds to complete</Typography.Text>
+                        </Space>
                     </Space>
                   </Form>
               </Card>
