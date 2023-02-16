@@ -136,6 +136,12 @@ function GeneratePage() {
           });
     }
 
+    function handleKeyUp(event) {
+        if (event.keyCode === 13) {
+            form.submit();
+        }
+    }
+
     return (
       <StyledDiv>
           {contextHolder}
@@ -157,6 +163,7 @@ function GeneratePage() {
                     }}
                     onFinish={handleGenerate}
                     form={form}
+                    onKeyUp={handleKeyUp}
                   >
                     <Space direction="vertical" style={{ width: '100%' }}>
                           <Form.Item
