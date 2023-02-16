@@ -83,6 +83,8 @@ function GeneratePage() {
         window.scrollTo(0, 0)
 
         form.submit()
+
+        setDisabled(false)
     }
 
     const handleGenerate = values => {
