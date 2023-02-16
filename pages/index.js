@@ -276,7 +276,7 @@ function GeneratePage() {
                       <Card.Meta description={prompt}/>
                       <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Difussion"}</Tag>
                       <Divider style={{ width: "100%" }}/>
-                      <Button onClick={handleRegenerate} icon={<RedoOutlined />}>Generate Again</Button>
+                      <Button onClick={handleRegenerate} icon={<RedoOutlined />} disabled={loading}>Generate Again</Button>
                   </Space>
               </Card>
           </Space>
