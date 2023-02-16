@@ -53,12 +53,12 @@ function GeneratePage() {
 
     const [nextPrompt, setNextPrompt] = useState("")
 
-    useEffect(() => {
-        if(textBox.current) {
-            textBox.current.focus()
-            textBox.current.input.value = defaultPrompt;
-        }
-    }, [textBox])
+    // useEffect(() => {
+    //     if(textBox.current) {
+    //         textBox.current.focus()
+    //         textBox.current.input.value = defaultPrompt;
+    //     }
+    // }, [textBox])
 
     const handleGenerate = () => {
         setLoading(true)
