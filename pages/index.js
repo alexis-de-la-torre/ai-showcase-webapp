@@ -57,6 +57,7 @@ function GeneratePage() {
     const [messageApi, contextHolder] = message.useMessage()
 
     const textBox = useRef(null);
+    const image = useRef(null);
 
     const [form] = Form.useForm();
 
@@ -124,6 +125,8 @@ function GeneratePage() {
               setImageSrc(body.urls[0])
               setLoading(false)
               setPrompt(values.prompt)
+
+              image.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
           })
           .catch(error => {
               window.dataLayer.push({
@@ -264,6 +267,7 @@ function GeneratePage() {
                     src={imgSrc}
                     alt="alt"
                     layout="responsive"
+                    ref={image}
                   />
                 }
               >
