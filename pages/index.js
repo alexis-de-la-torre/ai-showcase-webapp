@@ -1,4 +1,5 @@
-import {Alert, Button, Card, Collapse, Input, InputNumber, message, Select, Space, Tag, Typography} from "antd"
+import {Alert, Button, Card, Collapse, Form, Input, InputNumber, message, Select, Space, Tag, Typography} from "antd"
+import { RedoOutlined } from '@ant-design/icons';
 import Image from "next/image.js"
 import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -32,8 +33,7 @@ const StyledDiv = styled("div")`
 `
 
 const StyledAlert = styled(Alert)`
-  line-height: 1.3;
-  font-size: x-small;
+  line-height: 1.4;
 `
 
 function GeneratePage() {
@@ -44,23 +44,35 @@ function GeneratePage() {
 
     const textBox = useRef(null);
 
+    const [form] = Form.useForm();
+
     const [imgSrc, setImageSrc] =
       useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
     const [prompt, setPrompt] = useState(defaultPrompt)
     const [loading, setLoading] = useState(false)
     const [model, setModel] = useState("stable-diffusion")
-    const [steps, setSteps] = useState(defaultSteps)
 
-    const [nextPrompt, setNextPrompt] = useState(defaultPrompt)
+    useEffect(() => {
+        if(textBox.current) {
+            textBox.current.focus()
+            window.scrollTo(0, 0)
+        }
+    }, [textBox])
 
-    // useEffect(() => {
-    //     if(textBox.current) {
-    //         textBox.current.focus()
-    //         textBox.current.input.value = defaultPrompt;
-    //     }
-    // }, [textBox])
+    const handleRegenerate = () => {
+        form.setFieldsValue({
+            prompt: prompt
+        })
 
-    const handleGenerate = () => {
+        window.scrollTo(0, 0)
+
+        form.submit()
+    }
+
+    const handleGenerate = values => {
+        if (!values.model) values.model = "stable-diffusion"
+        if (!values.steps) values.steps = defaultSteps
+
         setLoading(true)
 
         window.dataLayer.push({
@@ -68,19 +80,19 @@ function GeneratePage() {
             eventProps: {
                 action: 'generate click',
                 category: 'interaction',
-                label: `${nextPrompt} - ${model} - ${steps} steps`,
+                label: `${values.prompt} - ${values.model} - ${values.steps} steps`,
                 value: 1
             }
         });
 
         const params =
-          new URLSearchParams({ promp: nextPrompt, qty: 1, steps: steps })
+          new URLSearchParams({ promp: values.prompt, qty: 1, steps: values.steps })
+
+        setModel(values.model)
 
         fetchClient.get(westworldAddr + "/" + model + "?" + params)
           .then(res => res.data)
           .then(body => {
-              console.log(body)
-
               window.dataLayer.push({
                   event: 'GENERATE_EVENTS',
                   eventProps: {
@@ -93,7 +105,7 @@ function GeneratePage() {
 
               setImageSrc(body.urls[0])
               setLoading(false)
-              setPrompt(nextPrompt)
+              setPrompt(values.prompt)
           })
           .catch(error => {
               window.dataLayer.push({
@@ -124,78 +136,88 @@ function GeneratePage() {
           });
     }
 
-    const handleModelChange = model => {
-        setModel(model)
-    }
-
-    const handleWrite = ev => {
-        setNextPrompt(ev.target.value)
-    }
-
     return (
       <StyledDiv>
           {contextHolder}
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <StyledAlert
-                message={<span><strong>Write anything</strong> in the text box, then press the button. <br/> An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text.</span>}
+                message={<span>1. <strong>Write anything</strong> in the text box, then press the button. <br/> 2. An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text.</span>}
                 type="info"
                 showIcon
                 closable
               />
 
               <Card>
-                  <Space direction="vertical" style={{ width: '100%' }}>
-                      <Input.TextArea
-                        allowClear
-                        rows={4}
-                        loading={loading}
-                        onChange={handleWrite}
-                        defaultValue={defaultPrompt}
-                        ref={textBox}
-                      />
-
-                      <StyledCollapse size="small" open>
-                          <Collapse.Panel header="Advanced Options" key="0" >
-                              <Space direction="vertical">
-                                  <Space>
-                                      <Typography>Model:</Typography>
-                                      <Select
-                                        defaultValue="stable-diffusion"
-                                        onChange={handleModelChange}
-                                        options={[
-                                            { label: "Stable Diffusion", value: "stable-diffusion" },
-                                            { label: "Karlo", value: "karlo" },
-                                        ]}
-                                        style={{ minWidth: 150 }}
-                                      />
-                                  </Space>
-
-                                  <Space>
-                                      <Typography>Steps:</Typography>
-                                      <InputNumber
-                                        min={1}
-                                        max={50}
-                                        defaultValue={defaultSteps}
-                                        onChange={n => setSteps(n)}
-                                        style={{ minWidth: 150 }}
-                                      />
-                                  </Space>
-                              </Space>
-                          </Collapse.Panel>
-                      </StyledCollapse>
-
-
-
-                          <Button
-                            type="primary"
-                            block
-                            onClick={handleGenerate}
-                            loading={loading}
-                            size="large"
+                  <Form
+                    name="generate"
+                    initialValues={{
+                        prompt: "",
+                        model: 'stable-diffusion',
+                        steps: 35
+                    }}
+                    onFinish={handleGenerate}
+                    form={form}
+                  >
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                          <Form.Item
+                            label="What do you want to see?"
+                            name="prompt"
+                            style={{ margin: 0 }}
                           >
-                              Generate
-                          </Button>
-                  </Space>
+                              <Input.TextArea
+                                allowClear
+                                rows={4}
+                                loading={loading}
+                                // onChange={handleWrite}
+                                // defaultValue={defaultPrompt}
+                                ref={textBox}
+                              />
+                          </Form.Item>
+
+                          <StyledCollapse size="small" open>
+                              <Collapse.Panel header="Advanced Options" key="0" >
+                                      <Form.Item
+                                        label="Model"
+                                        name="model"
+                                      >
+                                          <Select
+                                            // defaultValue="stable-diffusion"
+                                            // onChange={handleModelChange}
+                                            options={[
+                                                { label: "Stable Diffusion", value: "stable-diffusion" },
+                                                { label: "Karlo", value: "karlo" },
+                                            ]}
+                                          />
+                                      </Form.Item>
+
+                                      <Form.Item
+                                        label="Steps"
+                                        name="steps"
+                                      >
+                                          <InputNumber
+                                            min={1}
+                                            max={50}
+                                            // defaultValue={defaultSteps}
+                                            // onChange={n => setSteps(n)}
+                                          />
+                                      </Form.Item>
+                              </Collapse.Panel>
+                          </StyledCollapse>
+
+                          <Form.Item style={{ margin: 0 }}>
+                              <Button
+                                type="primary"
+                                block
+                                // onClick={handleGenerate}
+                                loading={loading}
+                                size="large"
+                                htmlType="submit"
+                              >
+                                  Generate
+                              </Button>
+                          </Form.Item>
+                    </Space>
+                  </Form>
               </Card>
 
               <Card
@@ -212,7 +234,8 @@ function GeneratePage() {
 
                   <Space direction="vertical">
                       <Card.Meta description={prompt}/>
-                      <Tag>{model === "karlo" ? "Created by the Karlo AI Model" : "Created by the Stable Difussion AI Model"}</Tag>
+                      <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Difussion"}</Tag>
+                      <Button onClick={handleRegenerate} style={{ marginTop: 22 }} icon={<RedoOutlined />}>Generate Again</Button>
                   </Space>
               </Card>
           </Space>
