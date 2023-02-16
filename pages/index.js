@@ -68,7 +68,7 @@ function GeneratePage() {
             eventProps: {
                 action: 'generate click',
                 category: 'interaction',
-                label: `${model} - ${steps} steps - ${nextPrompt}`,
+                label: `${nextPrompt} - ${model} - ${steps} steps`,
                 value: 1
             }
         });
