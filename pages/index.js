@@ -126,7 +126,7 @@ function GeneratePage() {
               setLoading(false)
               setPrompt(values.prompt)
 
-              image.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              image.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
           })
           .catch(error => {
               window.dataLayer.push({
