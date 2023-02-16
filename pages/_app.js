@@ -56,6 +56,13 @@ function MyApp({ Component, pageProps }) {
     }, [])
 
     useEffect(() => {
+        if (window.google_optimize) {
+            console.log("optimize")
+            console.log(window.google_optimize.get('H353uVOCTouRyc1nvYV8Tg'))
+        }
+    })
+
+    useEffect(() => {
         // TODO: Figure out why timing breaks AuthUI
 
         let t;
