@@ -150,7 +150,7 @@ function GeneratePage() {
                         rows={4}
                         loading={loading}
                         onChange={handleWrite}
-                        // defaultValue={defaultPrompt}
+                        defaultValue={defaultPrompt}
                         ref={textBox}
                       />
 
