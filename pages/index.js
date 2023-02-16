@@ -1,6 +1,6 @@
 import {Alert, Button, Card, Collapse, Input, InputNumber, message, Select, Space, Tag, Typography} from "antd"
 import Image from "next/image.js"
-import {useState} from "react"
+import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 import styled from "styled-components"
@@ -42,6 +42,8 @@ function GeneratePage() {
 
     const [messageApi, contextHolder] = message.useMessage()
 
+    const textBox = useRef(null)
+
     const [imgSrc, setImageSrc] =
       useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
     const [prompt, setPrompt] = useState(defaultPrompt)
@@ -49,7 +51,14 @@ function GeneratePage() {
     const [model, setModel] = useState("stable-diffusion")
     const [steps, setSteps] = useState(defaultSteps)
 
-    const [nextPrompt, setNextPrompt] = useState(defaultPrompt)
+    const [nextPrompt, setNextPrompt] = useState("")
+
+    useEffect(() => {
+        if(textBox.current) {
+            textBox.current.focus()
+            textBox.current.input.value = defaultPrompt;
+        }
+    }, [textBox])
 
     const handleGenerate = () => {
         setLoading(true)
@@ -57,10 +66,10 @@ function GeneratePage() {
         window.dataLayer.push({
             event: 'GENERATE_EVENTS',
             eventProps: {
-                action: 'click',
+                action: 'generate click',
                 category: 'interaction',
-                label: 'generate',
-                value: `${model} - ${steps} steps - ${nextPrompt}`
+                label: `${model} - ${steps} steps - ${nextPrompt}`,
+                value: 1
             }
         });
 
@@ -75,10 +84,10 @@ function GeneratePage() {
               window.dataLayer.push({
                   event: 'GENERATE_EVENTS',
                   eventProps: {
-                      action: 'receive',
-                      category: 'result',
-                      label: 'receive image from generate',
-                      value: body.urls[0]
+                      action: 'generate receive success',
+                      category: 'interaction',
+                      label: body.urls[0],
+                      value: 1
                   }
               });
 
@@ -90,10 +99,10 @@ function GeneratePage() {
               window.dataLayer.push({
                   event: 'GENERATE_EVENTS',
                   eventProps: {
-                      action: 'receive',
-                      category: 'error',
-                      label: 'error receiving image from generate',
-                      value: error.response ? error.response.status : ''
+                      action: 'generate receive error',
+                      category: 'interaction',
+                      label: error.response ? error.response.status : '',
+                      value: 1
                   }
               });
 
@@ -141,7 +150,8 @@ function GeneratePage() {
                         rows={4}
                         loading={loading}
                         onChange={handleWrite}
-                        defaultValue={defaultPrompt}
+                        // defaultValue={defaultPrompt}
+                        ref={textBox}
                       />
 
                       <StyledCollapse size="small" open>
