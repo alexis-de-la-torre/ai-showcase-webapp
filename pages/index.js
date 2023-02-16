@@ -51,7 +51,7 @@ function GeneratePage() {
     const [model, setModel] = useState("stable-diffusion")
     const [steps, setSteps] = useState(defaultSteps)
 
-    const [nextPrompt, setNextPrompt] = useState("")
+    const [nextPrompt, setNextPrompt] = useState(defaultPrompt)
 
     // useEffect(() => {
     //     if(textBox.current) {
