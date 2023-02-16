@@ -101,6 +101,8 @@ function MyApp({ Component, pageProps }) {
                 `}
           </Script>
 
+          <Script src="https://www.googleoptimize.com/optimize.js?id=OPT-NTG36X4"></Script>
+
           <noscript>
               <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5TXVP3Q"
                             height="0" width="0" style={{ display: "none", visibility: "hidden" }}>
