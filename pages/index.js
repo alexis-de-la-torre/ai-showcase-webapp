@@ -13,14 +13,15 @@ import {
     Tag,
     Typography
 } from "antd"
-import { RedoOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import {RedoOutlined, ClockCircleOutlined} from '@ant-design/icons';
 import Image from "next/image.js"
 import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 import styled from "styled-components"
 
-const westworldAddr = process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
+const westworldAddr =
+  process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
 
 const StyledCollapse = styled(Collapse)`
   .ant-collapse-header {
@@ -50,6 +51,14 @@ const StyledAlert = styled(Alert)`
   line-height: 1.4;
 `
 
+const Instructions = (
+  <span>
+      1. <strong>Write anything</strong> in the text box. <br/>
+      2. <strong>Click</strong> the <strong>Generate</strong> button. <br/>
+      3. An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text.
+  </span>
+)
+
 function GeneratePage() {
     const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
     const defaultSteps = 35;
@@ -70,7 +79,7 @@ function GeneratePage() {
     const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
-        if(textBox.current) {
+        if (textBox.current) {
             textBox.current.focus()
             window.scrollTo(0, 0)
         }
@@ -81,7 +90,7 @@ function GeneratePage() {
             prompt: prompt
         })
 
-        window.scrollTo(0, 0, { behavior: 'smooth' })
+        window.scrollTo(0, 0, {behavior: 'smooth'})
 
         form.submit()
 
@@ -105,7 +114,7 @@ function GeneratePage() {
         });
 
         const params =
-          new URLSearchParams({ promp: values.prompt, qty: 1, steps: values.steps })
+          new URLSearchParams({promp: values.prompt, qty: 1, steps: values.steps})
 
         setModel(values.model)
 
@@ -126,7 +135,7 @@ function GeneratePage() {
               setLoading(false)
               setPrompt(values.prompt)
 
-              image.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              image.current.scrollIntoView({behavior: 'smooth', block: 'start'})
           })
           .catch(error => {
               window.dataLayer.push({
@@ -166,9 +175,9 @@ function GeneratePage() {
     return (
       <StyledDiv>
           {contextHolder}
-          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+          <Space direction="vertical" size="middle" style={{width: '100%'}}>
               <StyledAlert
-                message={<span>1. <strong>Write anything</strong> in the text box. <br/> 2. Press the <strong>Generate</strong> button. <br/> 3. An <strong>Artificial Intelligence</strong> Model will try its best to <strong>generate an image</strong> based on your text.</span>}
+                message={Instructions}
                 type="info"
                 closable
               />
@@ -185,11 +194,11 @@ function GeneratePage() {
                     form={form}
                     onKeyUp={handleKeyUp}
                   >
-                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <Space direction="vertical" style={{width: '100%'}}>
                           <Form.Item
                             label="What do you want to see?"
                             name="prompt"
-                            style={{ margin: 0 }}
+                            style={{margin: 0}}
                           >
                               <Input.TextArea
                                 allowClear
@@ -201,7 +210,7 @@ function GeneratePage() {
                                 onChange={e => {
                                     if (e.target.value === "") {
                                         setDisabled(true)
-                                    }  else {
+                                    } else {
                                         setDisabled(false)
                                     }
                                 }}
@@ -209,40 +218,39 @@ function GeneratePage() {
                           </Form.Item>
 
                           <StyledCollapse size="small" open>
-                              <Collapse.Panel header="Advanced Options" key="0" >
-                                      <Form.Item
-                                        label="Model"
-                                        name="model"
-                                      >
-                                          <Select
-                                            // defaultValue="stable-diffusion"
-                                            // onChange={handleModelChange}
-                                            options={[
-                                                { label: "Stable Diffusion", value: "stable-diffusion" },
-                                                { label: "Karlo", value: "karlo" },
-                                            ]}
-                                          />
-                                      </Form.Item>
+                              <Collapse.Panel header="Advanced Options" key="0">
+                                  <Form.Item
+                                    label="Model"
+                                    name="model"
+                                  >
+                                      <Select
+                                        // defaultValue="stable-diffusion"
+                                        // onChange={handleModelChange}
+                                        options={[
+                                            {label: "Stable Diffusion", value: "stable-diffusion"},
+                                            {label: "Karlo", value: "karlo"},
+                                        ]}
+                                      />
+                                  </Form.Item>
 
-                                      <Form.Item
-                                        label="Steps"
-                                        name="steps"
-                                      >
-                                          <InputNumber
-                                            min={1}
-                                            max={50}
-                                            // defaultValue={defaultSteps}
-                                            // onChange={n => setSteps(n)}
-                                          />
-                                      </Form.Item>
+                                  <Form.Item
+                                    label="Steps"
+                                    name="steps"
+                                  >
+                                      <InputNumber
+                                        min={1}
+                                        max={50}
+                                        // defaultValue={defaultSteps}
+                                        // onChange={n => setSteps(n)}
+                                      />
+                                  </Form.Item>
                               </Collapse.Panel>
                           </StyledCollapse>
 
-                          <Form.Item style={{ margin: 0 }}>
+                          <Form.Item style={{margin: 0}}>
                               <Button
                                 type="primary"
                                 block
-                                // onClick={handleGenerate}
                                 loading={loading}
                                 size="large"
                                 htmlType="submit"
@@ -251,32 +259,38 @@ function GeneratePage() {
                                   Generate
                               </Button>
                           </Form.Item>
-                        <Space >
-                            <Typography.Text style={{ fontSize: "small" }} disabled><ClockCircleOutlined /></Typography.Text>
-                            <Typography.Text style={{ fontSize: "small" }} disabled>~11 Seconds to complete</Typography.Text>
-                        </Space>
-                    </Space>
+
+                          <Space>
+                              <Typography.Text style={{fontSize: "small"}} disabled>
+                                  <ClockCircleOutlined/>
+                              </Typography.Text>
+                              <Typography.Text style={{fontSize: "small"}} disabled>
+                                  ~11 Seconds to complete
+                              </Typography.Text>
+                          </Space>
+                      </Space>
                   </Form>
               </Card>
 
               <Card
                 cover={
-                  <Image
-                    width={780}
-                    height={844}
-                    src={imgSrc}
-                    alt="alt"
-                    layout="responsive"
-                    ref={image}
-                  />
+                    <Image
+                      width={780}
+                      height={844}
+                      src={imgSrc}
+                      alt="alt"
+                      layout="responsive"
+                      ref={image}
+                    />
                 }
               >
 
                   <Space direction="vertical">
                       <Card.Meta description={prompt}/>
-                      <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Difussion"}</Tag>
-                      <Divider style={{ width: "100%" }}/>
-                      <Button onClick={handleRegenerate} icon={<RedoOutlined />} disabled={loading}>Generate Again</Button>
+                      <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Diffusion"}</Tag>
+                      <Divider style={{width: "100%"}}/>
+                      <Button onClick={handleRegenerate} icon={<RedoOutlined/>} disabled={loading}>Generate
+                          Again</Button>
                   </Space>
               </Card>
           </Space>
