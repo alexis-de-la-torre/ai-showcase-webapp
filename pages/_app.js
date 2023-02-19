@@ -139,7 +139,7 @@ function MyApp({ Component, pageProps }) {
                 mode="horizontal"
                 style={{ width: "100%" }}
               >
-                  <Menu.Item key="generate" style={{ width: 80 }}>
+                  <Menu.Item key="generate" style={{ width: 70 }}>
                       <Link href="/">
                           Generate
                       </Link>
