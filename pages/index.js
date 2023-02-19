@@ -200,6 +200,8 @@ function GeneratePage() {
         setLoadingRandom(true)
         setDisabled(true)
 
+        window.scrollTo(0, 0, {behavior: 'smooth'})
+
         const params = new URLSearchParams({
             promp: "<BOP>",
         })
@@ -213,7 +215,6 @@ function GeneratePage() {
                   prompt: body.prompts[0]
               })
 
-              window.scrollTo(0, 0, {behavior: 'smooth'})
 
               form.submit()
 
