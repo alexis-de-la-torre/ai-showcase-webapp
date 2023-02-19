@@ -198,6 +198,7 @@ function GeneratePage() {
 
     const handleGenerateRandom = () => {
         setLoadingRandom(true)
+        setDisabled(true)
 
         const params = new URLSearchParams({
             promp: "<BOP>",
@@ -234,6 +235,8 @@ function GeneratePage() {
                   type: 'error',
                   content: "There was an unexpected error, please try again later.",
               });
+
+              setDisabled(false)
 
               setLoadingRandom(false)
 
