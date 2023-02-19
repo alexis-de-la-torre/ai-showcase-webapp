@@ -118,7 +118,7 @@ function MyApp({ Component, pageProps }) {
 
           <StyledHeader>
               <Link href="/">
-                  <Space align="center" style={{ minWidth: 180, marginRight: 11 }}>
+                  <Space align="center" style={{ minWidth: 180 }}>
                       <Typography.Title
                         style={{margin: 0}}
                         level={5}
