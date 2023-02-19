@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }) {
     return (
       <Layout>
           <Head>
-              <title>AI Image Creator - Generate Images with Text2Img Artificial Intelligence models</title>
+              <title>AI Image Creator - Free - No Signup - Generate Images with Text2Img Artificial Intelligence models</title>
           </Head>
 
           <Script>
