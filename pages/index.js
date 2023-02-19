@@ -19,9 +19,19 @@ import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
 import fetchClient from "../fetchClient.js"
 import styled from "styled-components"
+import {useUser} from "../auth/useUser.js"
 
-const westworldAddr =
+const API_ADDR =
   process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
+
+const DEFAULT_IMAGE =
+  "https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg"
+
+const DEFAULT_PROMPT = "painting of a beautiful woman surrounded by flowers"
+
+const DEFAULT_MODEL = "stable-diffusion"
+
+const DEFAULT_STEPS = 35
 
 const StyledCollapse = styled(Collapse)`
   .ant-collapse-header {
@@ -60,23 +70,20 @@ const Instructions = (
 )
 
 function GeneratePage() {
-    const defaultPrompt = "painting of a beautiful woman surrounded by flowers"
-    const defaultSteps = 35;
+    const { user } = useUser();
 
     const [messageApi, contextHolder] = message.useMessage()
-
-    const textBox = useRef(null);
-    const image = useRef(null);
-
     const [form] = Form.useForm();
 
-    const [imgSrc, setImageSrc] =
-      useState("https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg")
-    const [prompt, setPrompt] = useState(defaultPrompt)
-    const [loading, setLoading] = useState(false)
-    const [model, setModel] = useState("stable-diffusion")
+    const textBox = useRef(null)
+    const image = useRef(null)
 
+    const [loading, setLoading] = useState(false)
     const [disabled, setDisabled] = useState(true)
+
+    const [imgSrc, setImageSrc] = useState(DEFAULT_IMAGE)
+    const [prompt, setPrompt] = useState(DEFAULT_PROMPT)
+    const [model, setModel] = useState(DEFAULT_MODEL)
 
     useEffect(() => {
         if (textBox.current) {
@@ -99,9 +106,7 @@ function GeneratePage() {
 
     const handleGenerate = values => {
         if (!values.model) values.model = "stable-diffusion"
-        if (!values.steps) values.steps = defaultSteps
-
-        setLoading(true)
+        if (!values.steps) values.steps = DEFAULT_STEPS
 
         window.dataLayer.push({
             event: 'GENERATE_EVENTS',
@@ -113,12 +118,13 @@ function GeneratePage() {
             }
         });
 
+        setLoading(true)
+        setModel(values.model)
+
         const params =
           new URLSearchParams({promp: values.prompt, qty: 1, steps: values.steps})
 
-        setModel(values.model)
-
-        fetchClient.get(westworldAddr + "/" + model + "?" + params)
+        fetchClient.get(API_ADDR + "/" + model + "?" + params)
           .then(res => res.data)
           .then(body => {
               window.dataLayer.push({
@@ -149,9 +155,13 @@ function GeneratePage() {
               });
 
               if (error.response && error.response.status === 429) {
+                  const msgAnon = "Generation limit reached, try again in an hour." +
+                    " Or Sign In to enjoy a bigger limit."
+                  const msgUser = "Generation limit reached, try again in an hour."
+
                   messageApi.open({
                       type: 'error',
-                      content: "Generation limit reached, try again in an hour. Or Sign In to enjoy a bigger limit.",
+                      content: user.email ? msgUser : msgAnon,
                   });
               } else {
                   messageApi.open({
@@ -204,8 +214,6 @@ function GeneratePage() {
                                 allowClear
                                 rows={4}
                                 loading={loading}
-                                // onChange={handleWrite}
-                                // defaultValue={defaultPrompt}
                                 ref={textBox}
                                 onChange={e => {
                                     if (e.target.value === "") {
@@ -219,30 +227,23 @@ function GeneratePage() {
 
                           <StyledCollapse size="small" open>
                               <Collapse.Panel header="Advanced Options" key="0">
-                                  <Form.Item
-                                    label="Model"
-                                    name="model"
-                                  >
+                                  <Form.Item label="Model" name="model">
                                       <Select
-                                        // defaultValue="stable-diffusion"
-                                        // onChange={handleModelChange}
                                         options={[
-                                            {label: "Stable Diffusion", value: "stable-diffusion"},
-                                            {label: "Karlo", value: "karlo"},
+                                            {
+                                                label: "Stable Diffusion",
+                                                value: "stable-diffusion",
+                                            },
+                                            {
+                                                label: "Karlo",
+                                                value: "karlo"
+                                            },
                                         ]}
                                       />
                                   </Form.Item>
 
-                                  <Form.Item
-                                    label="Steps"
-                                    name="steps"
-                                  >
-                                      <InputNumber
-                                        min={1}
-                                        max={50}
-                                        // defaultValue={defaultSteps}
-                                        // onChange={n => setSteps(n)}
-                                      />
+                                  <Form.Item label="Steps" name="steps">
+                                      <InputNumber min={1} max={50}/>
                                   </Form.Item>
                               </Collapse.Panel>
                           </StyledCollapse>
