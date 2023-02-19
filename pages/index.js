@@ -79,7 +79,7 @@ function GeneratePage() {
     const image = useRef(null)
 
     const [loading, setLoading] = useState(false)
-    const [disabled, setDisabled] = useState(true)
+    const [disabled, setDisabled] = useState(false)
 
     const [imgSrc, setImageSrc] = useState(DEFAULT_IMAGE)
     const [prompt, setPrompt] = useState(DEFAULT_PROMPT)
@@ -105,7 +105,16 @@ function GeneratePage() {
     }
 
     const handleGenerate = values => {
-        if (!values.model) values.model = "stable-diffusion"
+        if (values.prompt === "") {
+            messageApi.open({
+                type: 'warning',
+                content: "Write something in the text box, then click Generate.",
+            });
+
+            return
+        }
+
+        if (!values.model) values.model = DEFAULT_MODEL
         if (!values.steps) values.steps = DEFAULT_STEPS
 
         window.dataLayer.push({
@@ -119,6 +128,7 @@ function GeneratePage() {
         });
 
         setLoading(true)
+
         setModel(values.model)
 
         const params =
@@ -138,10 +148,14 @@ function GeneratePage() {
               });
 
               setImageSrc(body.urls[0])
-              setLoading(false)
               setPrompt(values.prompt)
 
-              image.current.scrollIntoView({behavior: 'smooth', block: 'start'})
+              image.current.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+              })
+
+              setLoading(false)
           })
           .catch(error => {
               window.dataLayer.push({
@@ -215,13 +229,13 @@ function GeneratePage() {
                                 rows={4}
                                 loading={loading}
                                 ref={textBox}
-                                onChange={e => {
-                                    if (e.target.value === "") {
-                                        setDisabled(true)
-                                    } else {
-                                        setDisabled(false)
-                                    }
-                                }}
+                                // onChange={e => {
+                                //     if (e.target.value === "") {
+                                //         setDisabled(true)
+                                //     } else {
+                                //         setDisabled(false)
+                                //     }
+                                // }}
                               />
                           </Form.Item>
 
