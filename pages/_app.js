@@ -55,12 +55,12 @@ function MyApp({ Component, pageProps }) {
         TagManager.initialize({ gtmId: 'GTM-5TXVP3Q' });
     }, [])
 
-    useEffect(() => {
-        if (window.google_optimize) {
-            console.log("optimize")
-            console.log(window.google_optimize.get('H353uVOCTouRyc1nvYV8Tg'))
-        }
-    })
+    // useEffect(() => {
+    //     if (window.google_optimize) {
+    //         console.log("optimize")
+    //         console.log(window.google_optimize.get('H353uVOCTouRyc1nvYV8Tg'))
+    //     }
+    // })
 
     useEffect(() => {
         // TODO: Figure out why timing breaks AuthUI
@@ -118,7 +118,7 @@ function MyApp({ Component, pageProps }) {
 
           <StyledHeader>
               <Link href="/">
-                  <Space align="center" style={{ minWidth: 200, marginRight: 22 }}>
+                  <Space align="center" style={{ minWidth: 180, marginRight: 11 }}>
                       <Typography.Title
                         style={{margin: 0}}
                         level={5}
@@ -137,32 +137,27 @@ function MyApp({ Component, pageProps }) {
               <Menu
                 defaultSelectedKeys={['generate']}
                 mode="horizontal"
-                style={{ width: "60%" }}
+                style={{ width: "100%" }}
               >
-                  <Menu.Item key="generate" icon={<BulbOutlined/>}>
+                  <Menu.Item key="generate" style={{ width: 80 }}>
                       <Link href="/">
                           Generate
                       </Link>
                   </Menu.Item>
-                  {/*<Menu.Item key="view" icon={<EyeOutlined/>}>*/}
-                  {/*    <Link href="/view">*/}
-                  {/*        View*/}
-                  {/*    </Link>*/}
-                  {/*</Menu.Item>*/}
                   {!user || (user && !user.email) && (
-                    <Menu.Item key="login" icon={<LoginOutlined />}>
+                    <Menu.Item key="login" style={{ width: 70 }}>
                         <Link href="/signin">
                             Sign In
                         </Link>
                     </Menu.Item>
                   )}
                   {user && user.email && <>
-                        <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                        <Menu.Item key="logout" style={{ width: 70 }}>
                             <Link href="#" legacyBehavior>
                                 <a onClick={() => logout(false)}>Log Out</a>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="user">
+                        <Menu.Item key="user" style={{ width: 70 }}>
                             {user.email}
                         </Menu.Item>
                   </>}
