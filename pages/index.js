@@ -111,6 +111,8 @@ function GeneratePage() {
                 content: "Write something in the text box, then click Generate.",
             });
 
+            textBox.current.focus()
+
             return
         }
 
