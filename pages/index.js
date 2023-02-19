@@ -13,7 +13,7 @@ import {
     Tag,
     Typography
 } from "antd"
-import {RedoOutlined, ClockCircleOutlined} from '@ant-design/icons';
+import {ClockCircleOutlined} from '@ant-design/icons';
 import Image from "next/image.js"
 import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -22,7 +22,7 @@ import styled from "styled-components"
 import {useUser} from "../auth/useUser.js"
 
 const API_ADDR =
-  process.env.NEXT_PUBLIC_API_ADDR + "/api/v1/generations";
+  process.env.NEXT_PUBLIC_API_ADDR;
 
 const DEFAULT_IMAGE =
   "https://storage.googleapis.com/ai-showcase-stg/006c810e-7d7f-4ef6-b7bf-36fef454677a.jpg"
@@ -79,6 +79,7 @@ function GeneratePage() {
     const image = useRef(null)
 
     const [loading, setLoading] = useState(false)
+    const [loadingRandom, setLoadingRandom] = useState(false)
     const [disabled, setDisabled] = useState(false)
 
     const [imgSrc, setImageSrc] = useState(DEFAULT_IMAGE)
@@ -92,23 +93,11 @@ function GeneratePage() {
         }
     }, [textBox])
 
-    const handleRegenerate = () => {
-        form.setFieldsValue({
-            prompt: prompt
-        })
-
-        window.scrollTo(0, 0, {behavior: 'smooth'})
-
-        form.submit()
-
-        setDisabled(false)
-    }
-
     const handleGenerate = values => {
         if (values.prompt === "") {
             messageApi.open({
                 type: 'warning',
-                content: "Write something in the text box, then click Generate.",
+                content: "Write something in the text box, or click on Generate Random.",
             });
 
             textBox.current.focus()
@@ -133,10 +122,13 @@ function GeneratePage() {
 
         setModel(values.model)
 
-        const params =
-          new URLSearchParams({promp: values.prompt, qty: 1, steps: values.steps})
+        const params = new URLSearchParams({
+            promp: values.prompt,
+            qty: 1,
+            steps: values.steps,
+        })
 
-        fetchClient.get(API_ADDR + "/" + model + "?" + params)
+        fetchClient.get(API_ADDR + "/api/v1/generations/" + model + "?" + params)
           .then(res => res.data)
           .then(body => {
               window.dataLayer.push({
@@ -154,7 +146,7 @@ function GeneratePage() {
 
               image.current.scrollIntoView({
                   behavior: 'smooth',
-                  block: 'start',
+                  block: 'center',
               })
 
               setLoading(false)
@@ -189,6 +181,63 @@ function GeneratePage() {
               console.error(error)
 
               setLoading(false)
+          });
+    }
+
+    const handleRegenerate = () => {
+        form.setFieldsValue({
+            prompt: prompt
+        })
+
+        window.scrollTo(0, 0, {behavior: 'smooth'})
+
+        form.submit()
+
+        setDisabled(false)
+    }
+
+    const handleGenerateRandom = () => {
+        setLoadingRandom(true)
+
+        const params = new URLSearchParams({
+            promp: "<BOP>",
+        })
+
+        fetchClient.get(API_ADDR + "/api/v1/generations/prompt-parrot" + "?" + params)
+          .then(res => res.data)
+          .then(body => {
+              console.log(body.prompts)
+
+              form.setFieldsValue({
+                  prompt: body.prompts[0]
+              })
+
+              window.scrollTo(0, 0, {behavior: 'smooth'})
+
+              form.submit()
+
+              setDisabled(false)
+
+              setLoadingRandom(false)
+          })
+          .catch(error => {
+              window.dataLayer.push({
+                  event: 'GENERATE_EVENTS',
+                  eventProps: {
+                      action: 'generate random receive error',
+                      category: 'interaction',
+                      label: error.response ? error.response.status : '',
+                  }
+              });
+
+              messageApi.open({
+                  type: 'error',
+                  content: "There was an unexpected error, please try again later.",
+              });
+
+              setLoadingRandom(false)
+
+              console.error(error)
           });
     }
 
@@ -228,16 +277,9 @@ function GeneratePage() {
                           >
                               <Input.TextArea
                                 allowClear
-                                rows={4}
+                                rows={5}
                                 loading={loading}
                                 ref={textBox}
-                                // onChange={e => {
-                                //     if (e.target.value === "") {
-                                //         setDisabled(true)
-                                //     } else {
-                                //         setDisabled(false)
-                                //     }
-                                // }}
                               />
                           </Form.Item>
 
@@ -277,6 +319,16 @@ function GeneratePage() {
                               </Button>
                           </Form.Item>
 
+                          <Button
+                            block
+                            loading={loadingRandom}
+                            disabled={loading}
+                            icon="🎲 "
+                            onClick={handleGenerateRandom}
+                          >
+                              Generate Random
+                          </Button>
+
                           <Space>
                               <Typography.Text style={{fontSize: "small"}} disabled>
                                   <ClockCircleOutlined/>
@@ -304,10 +356,27 @@ function GeneratePage() {
 
                   <Space direction="vertical">
                       <Card.Meta description={prompt}/>
+
                       <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Diffusion"}</Tag>
+
                       <Divider style={{width: "100%"}}/>
-                      <Button onClick={handleRegenerate} icon={<RedoOutlined/>} disabled={loading}>Generate
-                          Again</Button>
+
+                      <Button
+                        onClick={handleRegenerate}
+                        icon="🔄 "
+                        disabled={loading}
+                      >
+                          Generate Again
+                      </Button>
+
+                      <Button
+                        disabled={loading}
+                        loading={loadingRandom}
+                        icon="🎲 "
+                        onClick={handleGenerateRandom}
+                      >
+                          Generate Random
+                      </Button>
                   </Space>
               </Card>
           </Space>
