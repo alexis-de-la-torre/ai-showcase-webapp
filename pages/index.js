@@ -363,7 +363,7 @@ function GeneratePage() {
 
                       <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Diffusion"}</Tag>
 
-                      <Divider style={{width: "100%"}}/>
+                      <Divider style={{ width: "100%", marginTop: 8, marginBottom: 8 }}/>
 
                       <Button
                         onClick={handleRegenerate}
