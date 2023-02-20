@@ -145,7 +145,7 @@ function GeneratePage() {
               setPrompt(values.prompt)
 
               window.scrollTo({
-                  top: image.current.getBoundingClientRect().top - 64 - 22,
+                  top: image.current.getBoundingClientRect().top - 64 - 11,
                   behavior: 'smooth',
               })
 

@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import 'antd/dist/antd.css';
 import {Layout, Menu, Space, Typography} from "antd"
 import styled from "styled-components"
-import { BulbOutlined, EyeOutlined, LogoutOutlined, LoginOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
 import React, {useEffect} from 'react';
 import Link from "next/link.js"
@@ -139,7 +139,7 @@ function MyApp({ Component, pageProps }) {
                 mode="horizontal"
                 style={{ width: "100%" }}
               >
-                  <Menu.Item key="generate" style={{ width: 70 }}>
+                  <Menu.Item key="generate" style={{ width: 80 }}>
                       <Link href="/">
                           Generate
                       </Link>
@@ -152,13 +152,10 @@ function MyApp({ Component, pageProps }) {
                     </Menu.Item>
                   )}
                   {user && user.email && <>
-                        <Menu.Item key="logout" style={{ width: 70 }}>
-                            <Link href="#" legacyBehavior>
-                                <a onClick={() => logout(false)}>Log Out</a>
+                        <Menu.Item key="user" style={{ width: 40 }}>
+                            <Link href="/profile">
+                                <UserOutlined />
                             </Link>
-                        </Menu.Item>
-                        <Menu.Item key="user" style={{ width: 70 }}>
-                            {user.email}
                         </Menu.Item>
                   </>}
               </Menu>
