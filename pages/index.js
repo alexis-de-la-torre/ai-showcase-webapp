@@ -144,9 +144,9 @@ function GeneratePage() {
               setImageSrc(body.urls[0])
               setPrompt(values.prompt)
 
-              image.current.scrollIntoView({
+              window.scrollTo({
+                  top: image.current.getBoundingClientRect().top - 64 - 22,
                   behavior: 'smooth',
-                  block: 'start',
               })
 
               setLoading(false)
