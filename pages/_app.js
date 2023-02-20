@@ -134,8 +134,6 @@ function MyApp({ Component, pageProps }) {
                   </Space>
               </Link>
 
-              <Divider type="vertical"/>
-
               <Menu
                 defaultSelectedKeys={['generate']}
                 mode="horizontal"
