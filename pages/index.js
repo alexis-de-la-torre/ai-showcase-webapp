@@ -13,7 +13,7 @@ import {
     Tag,
     Typography
 } from "antd"
-import {ClockCircleOutlined} from '@ant-design/icons';
+import {ClockCircleOutlined, SyncOutlined} from '@ant-design/icons'
 import Image from "next/image.js"
 import {useEffect, useRef, useState} from "react"
 import withAuth from "../auth/withAuth.js"
@@ -367,7 +367,7 @@ function GeneratePage() {
 
                       <Button
                         onClick={handleRegenerate}
-                        icon="🔄 "
+                        icon={<SyncOutlined />}
                         disabled={loading || loadingRandom}
                       >
                           Generate Again
