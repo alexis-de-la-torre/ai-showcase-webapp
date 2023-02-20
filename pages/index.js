@@ -189,11 +189,14 @@ function GeneratePage() {
             prompt: prompt
         })
 
-        window.scrollTo(0, 0, {behavior: 'smooth'})
-
         form.submit()
 
         setDisabled(false)
+
+        window.scrollTo({
+            top: image.current.getBoundingClientRect().top - 64 - 11,
+            behavior: 'smooth',
+        })
     }
 
     const handleGenerateRandom = () => {
@@ -216,11 +219,11 @@ function GeneratePage() {
 
               form.submit()
 
-              window.scrollTo(0, 0, {behavior: 'smooth'})
-
               setDisabled(false)
 
               setLoadingRandom(false)
+
+              window.scrollTo(0, 0, {behavior: 'smooth'})
           })
           .catch(error => {
               window.dataLayer.push({
