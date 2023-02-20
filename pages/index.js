@@ -114,7 +114,6 @@ function GeneratePage() {
                 action: 'generate click',
                 category: 'interaction',
                 label: `${values.prompt} - ${values.model} - ${values.steps} steps`,
-                value: 1
             }
         });
 
@@ -137,7 +136,6 @@ function GeneratePage() {
                       action: 'generate receive success',
                       category: 'interaction',
                       label: body.urls[0],
-                      value: 1
                   }
               });
 
@@ -158,7 +156,6 @@ function GeneratePage() {
                       action: 'generate receive error',
                       category: 'interaction',
                       label: error.response ? error.response.status : '',
-                      value: 1
                   }
               });
 

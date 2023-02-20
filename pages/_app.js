@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import 'antd/dist/antd.css';
-import {Avatar, Layout, Menu, Space, Typography} from "antd"
+import {Avatar, Divider, Layout, Menu, Space, Typography} from "antd"
 import styled from "styled-components"
 import { UserOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
@@ -133,6 +133,8 @@ function MyApp({ Component, pageProps }) {
                       </Typography.Title>
                   </Space>
               </Link>
+
+              <Divider type="vertical"/>
 
               <Menu
                 defaultSelectedKeys={['generate']}
