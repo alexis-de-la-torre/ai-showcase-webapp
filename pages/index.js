@@ -281,7 +281,7 @@ function GeneratePage() {
                           >
                               <Input.TextArea
                                 allowClear
-                                rows={5}
+                                rows={4}
                                 loading={loading}
                                 ref={textBox}
                               />
