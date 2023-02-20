@@ -70,7 +70,7 @@ const Instructions = (
 )
 
 function GeneratePage() {
-    const { user } = useUser();
+    const {user} = useUser();
 
     const [messageApi, contextHolder] = message.useMessage()
     const [form] = Form.useForm();
@@ -200,8 +200,6 @@ function GeneratePage() {
         setLoadingRandom(true)
         setDisabled(true)
 
-        window.scrollTo(0, 0, {behavior: 'smooth'})
-
         const params = new URLSearchParams({
             promp: "<BOP>",
         })
@@ -217,6 +215,8 @@ function GeneratePage() {
 
 
               form.submit()
+
+              window.scrollTo(0, 0, {behavior: 'smooth'})
 
               setDisabled(false)
 
