@@ -51,6 +51,8 @@ const StyledHeader = styled(Header)`
 function MyApp({ Component, pageProps }) {
     const { user, logout } = useUser();
 
+    // const currentUser = firebase.auth().currentUser;
+
     useEffect(() => {
         TagManager.initialize({ gtmId: 'GTM-5TXVP3Q' });
     }, [])
@@ -154,6 +156,7 @@ function MyApp({ Component, pageProps }) {
                   {user && user.email && <>
                         <Menu.Item key="user" style={{ width: 40 }}>
                             <Link href="/profile">
+                                {/*{currentUser && <Avatar src={currentUser.photoURL} />}*/}
                                 <Avatar icon={<UserOutlined />} />
                             </Link>
                         </Menu.Item>
