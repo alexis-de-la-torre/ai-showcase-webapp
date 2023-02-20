@@ -185,18 +185,15 @@ function GeneratePage() {
     }
 
     const handleRegenerate = () => {
+        setDisabled(false)
+
         form.setFieldsValue({
             prompt: prompt
         })
 
+        window.scrollTo(0, 0, {behavior: 'smooth'})
+
         form.submit()
-
-        setDisabled(false)
-
-        window.scrollTo({
-            top: image.current.getBoundingClientRect().top - 64 - 11,
-            behavior: 'smooth',
-        })
     }
 
     const handleGenerateRandom = () => {
