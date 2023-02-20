@@ -368,7 +368,7 @@ function GeneratePage() {
                       <Button
                         onClick={handleRegenerate}
                         icon="🔄 "
-                        disabled={loading}
+                        disabled={loading || loadingRandom}
                       >
                           Generate Again
                       </Button>
