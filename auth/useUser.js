@@ -13,10 +13,14 @@ import {
 export const mapUserData = async user => {
   const { uid, email } = user;
   const token = await user.getIdToken(true);
+
+  const currentUser = firebase.auth().currentUser
+
   return {
     id: uid,
     email,
-    token
+    token,
+    currentUser
   };
 };
 

@@ -28,11 +28,7 @@ const StyledDiv = styled("div")`
 const ProfilePage = () => {
     const { user, logout } = useUser();
 
-    const currentUser = firebase.auth().currentUser
-
-    console.log(currentUser)
-
-    if (!user || !currentUser) return (
+    if (!user || !user.currentUser) return (
       <StyledDiv>
           <Typography>Could not load user info</Typography>
       </StyledDiv>
@@ -44,14 +40,14 @@ const ProfilePage = () => {
 
         <Space direction="vertical" size="large">
             <Space align="center" size="middle">
-                <Avatar size={64} src={currentUser.photoURL} />
+                <Avatar size={64} src={user.currentUser.photoURL} />
 
                 <Space direction="vertical" size={0}>
                     <Typography.Title
                       level={3}
                       style={{ margin: 0 }}
                     >
-                        {currentUser.displayName}
+                        {user.currentUser.displayName}
                     </Typography.Title>
 
                     <Space align="center">
