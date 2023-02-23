@@ -317,7 +317,7 @@ function GeneratePage() {
     return (
       <StyledDiv>
           {contextHolder}
-          <Row gutter={[16, 16]}>
+          <Row gutter={[48, 16]}>
               <Col lg={12} style={{ width: "100%" }}>
                       <Space direction="vertical" style={{ width: "100%" }}>
                           <StyledAlert
