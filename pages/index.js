@@ -153,7 +153,13 @@ function GeneratePage() {
                   const TICK_MILLISECONDS = 110
 
                   const intervalTick = setInterval(() => {
-                      setPercent(p => p + (100 / placeInQueue / 100))
+                      setPercent(p => {
+                          if (p < 95) {
+                              return p + (100 / placeInQueue / 100)
+                          } else {
+                              return 95
+                          }
+                      })
                   }, TICK_MILLISECONDS)
 
                   const interval = setInterval(() => {
