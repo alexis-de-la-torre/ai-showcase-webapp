@@ -177,9 +177,6 @@ function GeneratePage() {
                               setPercent(100)
 
                               setLoading(false)
-
-                              clearInterval(interval)
-                              clearInterval(intervalTick)
                           } else if (res2.data.state === "TIMEOUT"){
                               setPercent(0)
 
@@ -189,13 +186,10 @@ function GeneratePage() {
                                   type: 'error',
                                   content: "Timed out while generating, please try again later",
                               });
-
-                              clearInterval(interval)
-                              clearInterval(intervalTick)
-                          } else {
-                              console.log("OTHER:")
-                              console.log(res2)
                           }
+
+                            clearInterval(interval)
+                            clearInterval(intervalTick)
                         })
                   }, 2000)
               } else {
