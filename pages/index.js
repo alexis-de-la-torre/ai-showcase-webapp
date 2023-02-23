@@ -165,10 +165,10 @@ function GeneratePage() {
                   const interval = setInterval(() => {
                       fetchClient.get(res.data.url.replace('http', 'https'))
                         .then(res2 => {
-                            if (res2.data) {
-                                console.log(res2.data)
-                                console.log(`Place in Queue: ${res2.data.placeInQueue}`)
-                            }
+                            // if (res2.data) {
+                            //     console.log(res2.data)
+                            //     console.log(`Place in Queue: ${res2.data.placeInQueue}`)
+                            // }
 
                             if (res2.data.state === "SUCCESS") {
                                 setImageSrc(res2.data.urls[0])
