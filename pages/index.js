@@ -98,7 +98,7 @@ function GeneratePage() {
             console.log("Using variant for test: Static time vs progress bar")
             setIsTimeExperimentActive(true);
         }
-    }, [window.google_optimize])
+    })
 
     useEffect(() => {
         if (textBox.current) {
