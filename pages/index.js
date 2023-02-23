@@ -150,7 +150,7 @@ function GeneratePage() {
 
                   console.log(`Place in Queue: ${placeInQueue}`)
 
-                  const TICK_MILLISECONDS = 110
+                  const TICK_MILLISECONDS = 120
 
                   const intervalTick = setInterval(() => {
                       setPercent(p => {
@@ -192,6 +192,9 @@ function GeneratePage() {
 
                               clearInterval(interval)
                               clearInterval(intervalTick)
+                          } else {
+                              console.log(res2.data)
+                              console.log(`Place in Queue: ${res2.data.placeInQueue}`)
                           }
                         })
                   }, 2000)
@@ -273,8 +276,6 @@ function GeneratePage() {
         fetchClient.get(API_ADDR + "/api/v1/generations/prompt-parrot" + "?" + params)
           .then(res => res.data)
           .then(body => {
-              console.log(body.prompts)
-
               form.setFieldsValue({
                   prompt: body.prompts[0]
               })
