@@ -78,7 +78,7 @@ function GeneratePage() {
     const textBox = useRef(null)
     const image = useRef(null)
 
-    const [isTimeExperimentActive, setIsTimeExperimentActive] = useState(false)
+    const [isTimeExperimentActive, setIsTimeExperimentActive] = useState(true)
 
     const [loading, setLoading] = useState(false)
     const [loadingRandom, setLoadingRandom] = useState(false)
@@ -89,13 +89,13 @@ function GeneratePage() {
     const [prompt, setPrompt] = useState(DEFAULT_PROMPT)
     const [model, setModel] = useState(DEFAULT_MODEL)
 
-    useEffect(() => {
-        if (!isTimeExperimentActive
-          && window.google_optimize
-          && window.google_optimize.get('-s_H6sXgTJ2NoPWL_p2ztA') === "1") {
-            setIsTimeExperimentActive(true)
-        }
-    })
+    // useEffect(() => {
+    //     if (!isTimeExperimentActive
+    //       && window.google_optimize
+    //       && window.google_optimize.get('-s_H6sXgTJ2NoPWL_p2ztA') === "1") {
+    //         setIsTimeExperimentActive(true)
+    //     }
+    // })
 
     useEffect(() => {
         if (textBox.current) {
