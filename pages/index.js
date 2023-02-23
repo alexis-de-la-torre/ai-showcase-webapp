@@ -165,39 +165,41 @@ function GeneratePage() {
                   const interval = setInterval(() => {
                       fetchClient.get(res.data.url.replace('http', 'https'))
                         .then(res2 => {
-                          if (res2.data.state === "SUCCESS") {
-                              setImageSrc(res2.data.urls[0])
-                              setPrompt(values.prompt)
+                            if (res2.data) {
+                                console.log(res2.data)
+                                console.log(`Place in Queue: ${res2.data.placeInQueue}`)
+                            }
 
-                              window.scrollTo({
-                                  top: image.current.getBoundingClientRect().top - 64 - 11,
-                                  behavior: 'smooth',
-                              })
+                            if (res2.data.state === "SUCCESS") {
+                                setImageSrc(res2.data.urls[0])
+                                setPrompt(values.prompt)
 
-                              setPercent(100)
+                                window.scrollTo({
+                                    top: image.current.getBoundingClientRect().top - 64 - 11,
+                                    behavior: 'smooth',
+                                })
 
-                              setLoading(false)
+                                setPercent(100)
 
-                              clearInterval(interval)
-                              clearInterval(intervalTick)
-                          } else if (res2.data.state === "TIMEOUT"){
-                              setPercent(0)
+                                setLoading(false)
 
-                              setLoading(false)
+                                clearInterval(interval)
+                                clearInterval(intervalTick)
+                            } else if (res2.data.state === "TIMEOUT") {
+                                setPercent(0)
 
-                              messageApi.open({
-                                  type: 'error',
-                                  content: "Timed out while generating, please try again later",
-                              });
+                                setLoading(false)
 
-                              clearInterval(interval)
-                              clearInterval(intervalTick)
-                          } else {
-                              console.log(res2.data)
-                              console.log(`Place in Queue: ${res2.data.placeInQueue}`)
-                          }
+                                messageApi.open({
+                                    type: 'error',
+                                    content: "Timed out while generating, please try again later",
+                                });
+
+                                clearInterval(interval)
+                                clearInterval(intervalTick)
+                            }
                         })
-                  }, 2000)
+                  }, 1000)
               } else {
                   const body = res.data
 
@@ -322,107 +324,108 @@ function GeneratePage() {
       <StyledDiv>
           {contextHolder}
           <Row gutter={[48, 16]}>
-              <Col lg={12} style={{ width: "100%" }}>
-                      <Space direction="vertical" style={{ width: "100%" }}>
-                          <StyledAlert
-                            message={Instructions}
-                            type="info"
-                            closable
-                          />
+              <Col lg={12} style={{width: "100%"}}>
+                  <Space direction="vertical" style={{width: "100%"}}>
+                      <StyledAlert
+                        message={Instructions}
+                        type="info"
+                        closable
+                      />
 
-                          <Card>
-                              <Form
-                                name="generate"
-                                initialValues={{
-                                    prompt: "",
-                                    model: DEFAULT_MODEL,
-                                    steps: DEFAULT_STEPS
-                                }}
-                                onFinish={handleGenerate}
-                                form={form}
-                                onKeyUp={handleKeyUp}
-                              >
-                                  <Space direction="vertical" style={{width: '100%'}}>
-                                      <Form.Item
-                                        label="What do you want to see?"
-                                        name="prompt"
-                                        style={{margin: 0}}
-                                      >
-                                          <Input.TextArea
-                                            allowClear
-                                            rows={4}
-                                            loading={loading}
-                                            ref={textBox}
-                                          />
-                                      </Form.Item>
+                      <Card>
+                          <Form
+                            name="generate"
+                            initialValues={{
+                                prompt: "",
+                                model: DEFAULT_MODEL,
+                                steps: DEFAULT_STEPS
+                            }}
+                            onFinish={handleGenerate}
+                            form={form}
+                            onKeyUp={handleKeyUp}
+                          >
+                              <Space direction="vertical" style={{width: '100%'}}>
+                                  <Form.Item
+                                    label="What do you want to see?"
+                                    name="prompt"
+                                    style={{margin: 0}}
+                                  >
+                                      <Input.TextArea
+                                        allowClear
+                                        rows={4}
+                                        loading={loading}
+                                        ref={textBox}
+                                      />
+                                  </Form.Item>
 
-                                      <StyledCollapse size="small" open>
-                                          <Collapse.Panel header="Advanced Options" key="0">
-                                              <Form.Item label="Model" name="model">
-                                                  <Select
-                                                    options={[
-                                                        {
-                                                            label: "Stable Diffusion",
-                                                            value: "stable-diffusion",
-                                                        },
-                                                        {
-                                                            label: "Karlo",
-                                                            value: "karlo"
-                                                        },
-                                                    ]}
-                                                  />
-                                              </Form.Item>
+                                  <StyledCollapse size="small" open>
+                                      <Collapse.Panel header="Advanced Options" key="0">
+                                          <Form.Item label="Model" name="model">
+                                              <Select
+                                                options={[
+                                                    {
+                                                        label: "Stable Diffusion",
+                                                        value: "stable-diffusion",
+                                                    },
+                                                    {
+                                                        label: "Karlo",
+                                                        value: "karlo"
+                                                    },
+                                                ]}
+                                              />
+                                          </Form.Item>
 
-                                              <Form.Item label="Steps" name="steps">
-                                                  <InputNumber min={1} max={50}/>
-                                              </Form.Item>
-                                          </Collapse.Panel>
-                                      </StyledCollapse>
+                                          <Form.Item label="Steps" name="steps">
+                                              <InputNumber min={1} max={50}/>
+                                          </Form.Item>
+                                      </Collapse.Panel>
+                                  </StyledCollapse>
 
-                                      <Form.Item style={{margin: 0}}>
-                                          <Button
-                                            type="primary"
-                                            block
-                                            loading={loading}
-                                            size="large"
-                                            htmlType="submit"
-                                            disabled={disabled}
-                                          >
-                                              Generate
-                                          </Button>
-                                      </Form.Item>
-
+                                  <Form.Item style={{margin: 0}}>
                                       <Button
+                                        type="primary"
                                         block
-                                        loading={loadingRandom}
-                                        disabled={loading}
-                                        icon="🎲 "
-                                        onClick={handleGenerateRandom}
+                                        loading={loading}
+                                        size="large"
+                                        htmlType="submit"
+                                        disabled={disabled}
                                       >
-                                          Generate Random
+                                          Generate
                                       </Button>
+                                  </Form.Item>
 
-                                      { !isTimeExperimentActive && (
-                                        <Space direction="vertical" style={{ width: "100%", alignItems: "center" }}>
-                                            <Space>
-                                                <Typography.Text style={{fontSize: "small"}} disabled>
-                                                    <ClockCircleOutlined/>
-                                                </Typography.Text>
-                                                <Typography.Text style={{fontSize: "small"}} disabled>
-                                                    ~11 Seconds to complete
-                                                </Typography.Text>
-                                            </Space>
+                                  <Button
+                                    block
+                                    loading={loadingRandom}
+                                    disabled={loading}
+                                    icon="🎲 "
+                                    onClick={handleGenerateRandom}
+                                  >
+                                      Generate Random
+                                  </Button>
+
+                                  {!isTimeExperimentActive && (
+                                    <Space direction="vertical" style={{width: "100%", alignItems: "center"}}>
+                                        <Space>
+                                            <Typography.Text style={{fontSize: "small"}} disabled>
+                                                <ClockCircleOutlined/>
+                                            </Typography.Text>
+                                            <Typography.Text style={{fontSize: "small"}} disabled>
+                                                ~11 Seconds to complete
+                                            </Typography.Text>
                                         </Space>
-                                      )}
+                                    </Space>
+                                  )}
 
-                                      { isTimeExperimentActive && <Progress percent={Math.ceil(percent)} showInfo={percent > 0}/> }
-                                  </Space>
-                              </Form>
-                          </Card>
-                      </Space>
+                                  {isTimeExperimentActive &&
+                                    <Progress percent={Math.ceil(percent)} showInfo={percent > 0}/>}
+                              </Space>
+                          </Form>
+                      </Card>
+                  </Space>
               </Col>
 
-              <Col lg={12} style={{ width: "100%" }}>
+              <Col lg={12} style={{width: "100%"}}>
                   <div>
                       <Card
                         cover={
@@ -442,11 +445,11 @@ function GeneratePage() {
 
                               <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Diffusion"}</Tag>
 
-                              <Divider style={{ width: "100%", marginTop: 8, marginBottom: 8 }}/>
+                              <Divider style={{width: "100%", marginTop: 8, marginBottom: 8}}/>
 
                               <Button
                                 onClick={handleRegenerate}
-                                icon={<SyncOutlined />}
+                                icon={<SyncOutlined/>}
                                 disabled={loading || loadingRandom}
                               >
                                   Generate Again
