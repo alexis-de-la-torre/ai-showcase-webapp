@@ -7,7 +7,7 @@ import {
     Form,
     Input,
     InputNumber,
-    message,
+    message, Progress,
     Select,
     Space,
     Tag,
@@ -78,13 +78,23 @@ function GeneratePage() {
     const textBox = useRef(null)
     const image = useRef(null)
 
+    const [isTimeExperimentActive, setIsTimeExperimentActive] = useState(false)
+
     const [loading, setLoading] = useState(false)
     const [loadingRandom, setLoadingRandom] = useState(false)
     const [disabled, setDisabled] = useState(false)
+    const [percent, setPercent] = useState(0)
 
     const [imgSrc, setImageSrc] = useState(DEFAULT_IMAGE)
     const [prompt, setPrompt] = useState(DEFAULT_PROMPT)
     const [model, setModel] = useState(DEFAULT_MODEL)
+
+    useEffect(() => {
+        if (window.google_optimize && window.google_optimize.get('-s_H6sXgTJ2NoPWL_p2ztA') === 1) {
+            console.log("Using variant for test: Static time vs progress bar")
+            setIsTimeExperimentActive(true);
+        }
+    }, [])
 
     useEffect(() => {
         if (textBox.current) {
@@ -119,35 +129,90 @@ function GeneratePage() {
 
         setLoading(true)
 
+        setPercent(0)
+
         setModel(values.model)
 
         const params = new URLSearchParams({
             promp: values.prompt,
             qty: 1,
             steps: values.steps,
+            async: isTimeExperimentActive,
         })
 
         fetchClient.get(API_ADDR + "/api/v1/generations/" + model + "?" + params)
-          .then(res => res.data)
-          .then(body => {
-              window.dataLayer.push({
-                  event: 'GENERATE_EVENTS',
-                  eventProps: {
-                      action: 'generate receive success',
-                      category: 'interaction',
-                      label: body.urls[0],
-                  }
-              });
+          .then(res => {
+              if (res.status === 201) {
+                  const AVERAGE_TIME_SECONDS = 11
 
-              setImageSrc(body.urls[0])
-              setPrompt(values.prompt)
+                  const placeInQueue = res.data.placeInQueue + 1
 
-              window.scrollTo({
-                  top: image.current.getBoundingClientRect().top - 64 - 11,
-                  behavior: 'smooth',
-              })
+                  console.log(`Place in Queue: ${placeInQueue}`)
 
-              setLoading(false)
+                  const TICK_MILLISECONDS = 110
+
+                  const intervalTick = setInterval(() => {
+                      setPercent(p => p + (100 / placeInQueue / 100))
+                  }, TICK_MILLISECONDS)
+
+                  const interval = setInterval(() => {
+                      fetchClient.get(res.data.url.replace('http', 'https'))
+                        .then(res2 => {
+                          if (res2.data.state === "SUCCESS") {
+                              setImageSrc(res2.data.urls[0])
+                              setPrompt(values.prompt)
+
+                              window.scrollTo({
+                                  top: image.current.getBoundingClientRect().top - 64 - 11,
+                                  behavior: 'smooth',
+                              })
+
+                              setPercent(100)
+
+                              setLoading(false)
+
+                              clearInterval(interval)
+                              clearInterval(intervalTick)
+                          } else if (res2.data.state === "TIMEOUT"){
+                              setPercent(0)
+
+                              setLoading(false)
+
+                              messageApi.open({
+                                  type: 'error',
+                                  content: "Timed out while generating, please try again later",
+                              });
+
+                              clearInterval(interval)
+                              clearInterval(intervalTick)
+                          } else {
+                              console.log("OTHER:")
+                              console.log(res2)
+                          }
+                        })
+                  }, 2000)
+              } else {
+                  const body = res.data
+
+                  window.dataLayer.push({
+                      event: 'GENERATE_EVENTS',
+                      eventProps: {
+                          action: 'generate receive success',
+                          category: 'interaction',
+                          label: body.urls[0],
+                      }
+                  });
+
+                  setImageSrc(body.urls[0])
+                  setPrompt(values.prompt)
+
+                  window.scrollTo({
+                      top: image.current.getBoundingClientRect().top - 64 - 11,
+                      behavior: 'smooth',
+                  })
+
+                  setLoading(false)
+              }
           })
           .catch(error => {
               window.dataLayer.push({
@@ -157,7 +222,7 @@ function GeneratePage() {
                       category: 'interaction',
                       label: error.response ? error.response.status : '',
                   }
-              });
+              })
 
               if (error.response && error.response.status === 429) {
                   const msgAnon = "Generation limit reached, try again in an hour." +
@@ -263,8 +328,8 @@ function GeneratePage() {
                     name="generate"
                     initialValues={{
                         prompt: "",
-                        model: 'stable-diffusion',
-                        steps: 35
+                        model: DEFAULT_MODEL,
+                        steps: DEFAULT_STEPS
                     }}
                     onFinish={handleGenerate}
                     form={form}
@@ -330,14 +395,20 @@ function GeneratePage() {
                               Generate Random
                           </Button>
 
-                          <Space>
-                              <Typography.Text style={{fontSize: "small"}} disabled>
-                                  <ClockCircleOutlined/>
-                              </Typography.Text>
-                              <Typography.Text style={{fontSize: "small"}} disabled>
-                                  ~11 Seconds to complete
-                              </Typography.Text>
-                          </Space>
+                          { !isTimeExperimentActive && (
+                            <Space direction="vertical" style={{ width: "100%", alignItems: "center" }}>
+                                <Space>
+                                    <Typography.Text style={{fontSize: "small"}} disabled>
+                                        <ClockCircleOutlined/>
+                                    </Typography.Text>
+                                    <Typography.Text style={{fontSize: "small"}} disabled>
+                                        ~11 Seconds to complete
+                                    </Typography.Text>
+                                </Space>
+                            </Space>
+                          )}
+
+                          { isTimeExperimentActive && <Progress percent={Math.ceil(percent)} showInfo={percent > 0}/> }
                       </Space>
                   </Form>
               </Card>
