@@ -90,11 +90,12 @@ function GeneratePage() {
     const [model, setModel] = useState(DEFAULT_MODEL)
 
     useEffect(() => {
-        if (window.google_optimize && window.google_optimize.get('-s_H6sXgTJ2NoPWL_p2ztA') === "1") {
-            console.log("Using variant for test: Static time vs progress bar")
-            setIsTimeExperimentActive(true);
+        if (!isTimeExperimentActive
+          && window.google_optimize
+          && window.google_optimize.get('-s_H6sXgTJ2NoPWL_p2ztA') === "1") {
+            setIsTimeExperimentActive(true)
         }
-    }, [window])
+    })
 
     useEffect(() => {
         if (textBox.current) {
