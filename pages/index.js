@@ -1,13 +1,13 @@
 import {
     Alert,
     Button,
-    Card,
+    Card, Col,
     Collapse,
     Divider,
     Form,
     Input,
     InputNumber,
-    message, Progress,
+    message, Progress, Row,
     Select,
     Space,
     Tag,
@@ -47,13 +47,13 @@ const StyledDiv = styled("div")`
   padding-left: 22px;
 
   @media (min-width: 768px) {
-    padding-right: 10vw;
-    padding-left: 10vw;
+    padding-right: 5vw;
+    padding-left: 5vw;
   }
 
   @media (min-width: 1100px) {
-    padding-right: 20vw;
-    padding-left: 20vw;
+    padding-right: 10vw;
+    padding-left: 10vw;
   }
 `
 
@@ -317,142 +317,150 @@ function GeneratePage() {
     return (
       <StyledDiv>
           {contextHolder}
-          <Space direction="vertical" size="middle" style={{width: '100%'}}>
-              <StyledAlert
-                message={Instructions}
-                type="info"
-                closable
-              />
+          <Row gutter={[16, 16]}>
+              <Col lg={12} style={{ width: "100%" }}>
+                      <Space direction="vertical" style={{ width: "100%" }}>
+                          <StyledAlert
+                            message={Instructions}
+                            type="info"
+                            closable
+                          />
 
-              <Card>
-                  <Form
-                    name="generate"
-                    initialValues={{
-                        prompt: "",
-                        model: DEFAULT_MODEL,
-                        steps: DEFAULT_STEPS
-                    }}
-                    onFinish={handleGenerate}
-                    form={form}
-                    onKeyUp={handleKeyUp}
-                  >
-                      <Space direction="vertical" style={{width: '100%'}}>
-                          <Form.Item
-                            label="What do you want to see?"
-                            name="prompt"
-                            style={{margin: 0}}
-                          >
-                              <Input.TextArea
-                                allowClear
-                                rows={4}
-                                loading={loading}
-                                ref={textBox}
-                              />
-                          </Form.Item>
-
-                          <StyledCollapse size="small" open>
-                              <Collapse.Panel header="Advanced Options" key="0">
-                                  <Form.Item label="Model" name="model">
-                                      <Select
-                                        options={[
-                                            {
-                                                label: "Stable Diffusion",
-                                                value: "stable-diffusion",
-                                            },
-                                            {
-                                                label: "Karlo",
-                                                value: "karlo"
-                                            },
-                                        ]}
-                                      />
-                                  </Form.Item>
-
-                                  <Form.Item label="Steps" name="steps">
-                                      <InputNumber min={1} max={50}/>
-                                  </Form.Item>
-                              </Collapse.Panel>
-                          </StyledCollapse>
-
-                          <Form.Item style={{margin: 0}}>
-                              <Button
-                                type="primary"
-                                block
-                                loading={loading}
-                                size="large"
-                                htmlType="submit"
-                                disabled={disabled}
+                          <Card>
+                              <Form
+                                name="generate"
+                                initialValues={{
+                                    prompt: "",
+                                    model: DEFAULT_MODEL,
+                                    steps: DEFAULT_STEPS
+                                }}
+                                onFinish={handleGenerate}
+                                form={form}
+                                onKeyUp={handleKeyUp}
                               >
-                                  Generate
-                              </Button>
-                          </Form.Item>
+                                  <Space direction="vertical" style={{width: '100%'}}>
+                                      <Form.Item
+                                        label="What do you want to see?"
+                                        name="prompt"
+                                        style={{margin: 0}}
+                                      >
+                                          <Input.TextArea
+                                            allowClear
+                                            rows={4}
+                                            loading={loading}
+                                            ref={textBox}
+                                          />
+                                      </Form.Item>
 
-                          <Button
-                            block
-                            loading={loadingRandom}
-                            disabled={loading}
-                            icon="🎲 "
-                            onClick={handleGenerateRandom}
-                          >
-                              Generate Random
-                          </Button>
+                                      <StyledCollapse size="small" open>
+                                          <Collapse.Panel header="Advanced Options" key="0">
+                                              <Form.Item label="Model" name="model">
+                                                  <Select
+                                                    options={[
+                                                        {
+                                                            label: "Stable Diffusion",
+                                                            value: "stable-diffusion",
+                                                        },
+                                                        {
+                                                            label: "Karlo",
+                                                            value: "karlo"
+                                                        },
+                                                    ]}
+                                                  />
+                                              </Form.Item>
 
-                          { !isTimeExperimentActive && (
-                            <Space direction="vertical" style={{ width: "100%", alignItems: "center" }}>
-                                <Space>
-                                    <Typography.Text style={{fontSize: "small"}} disabled>
-                                        <ClockCircleOutlined/>
-                                    </Typography.Text>
-                                    <Typography.Text style={{fontSize: "small"}} disabled>
-                                        ~11 Seconds to complete
-                                    </Typography.Text>
-                                </Space>
-                            </Space>
-                          )}
+                                              <Form.Item label="Steps" name="steps">
+                                                  <InputNumber min={1} max={50}/>
+                                              </Form.Item>
+                                          </Collapse.Panel>
+                                      </StyledCollapse>
 
-                          { isTimeExperimentActive && <Progress percent={Math.ceil(percent)} showInfo={percent > 0}/> }
+                                      <Form.Item style={{margin: 0}}>
+                                          <Button
+                                            type="primary"
+                                            block
+                                            loading={loading}
+                                            size="large"
+                                            htmlType="submit"
+                                            disabled={disabled}
+                                          >
+                                              Generate
+                                          </Button>
+                                      </Form.Item>
+
+                                      <Button
+                                        block
+                                        loading={loadingRandom}
+                                        disabled={loading}
+                                        icon="🎲 "
+                                        onClick={handleGenerateRandom}
+                                      >
+                                          Generate Random
+                                      </Button>
+
+                                      { !isTimeExperimentActive && (
+                                        <Space direction="vertical" style={{ width: "100%", alignItems: "center" }}>
+                                            <Space>
+                                                <Typography.Text style={{fontSize: "small"}} disabled>
+                                                    <ClockCircleOutlined/>
+                                                </Typography.Text>
+                                                <Typography.Text style={{fontSize: "small"}} disabled>
+                                                    ~11 Seconds to complete
+                                                </Typography.Text>
+                                            </Space>
+                                        </Space>
+                                      )}
+
+                                      { isTimeExperimentActive && <Progress percent={Math.ceil(percent)} showInfo={percent > 0}/> }
+                                  </Space>
+                              </Form>
+                          </Card>
                       </Space>
-                  </Form>
-              </Card>
+              </Col>
 
-              <Card
-                cover={
-                    <Image
-                      width={780}
-                      height={844}
-                      src={imgSrc}
-                      alt="alt"
-                      layout="responsive"
-                      ref={image}
-                    />
-                }
-              >
-
-                  <Space direction="vertical">
-                      <Card.Meta description={prompt}/>
-
-                      <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Diffusion"}</Tag>
-
-                      <Divider style={{ width: "100%", marginTop: 8, marginBottom: 8 }}/>
-
-                      <Button
-                        onClick={handleRegenerate}
-                        icon={<SyncOutlined />}
-                        disabled={loading || loadingRandom}
+              <Col lg={12} style={{ width: "100%" }}>
+                  <div>
+                      <Card
+                        cover={
+                            <Image
+                              width={780}
+                              height={844}
+                              src={imgSrc}
+                              alt="alt"
+                              layout="responsive"
+                              ref={image}
+                            />
+                        }
                       >
-                          Generate Again
-                      </Button>
 
-                      <Button
-                        disabled={loading}
-                        loading={loadingRandom}
-                        icon="🎲 "
-                        onClick={handleGenerateRandom}
-                      >
-                          Generate Random
-                      </Button>
-                  </Space>
-              </Card>
-          </Space>
+                          <Space direction="vertical">
+                              <Card.Meta description={prompt}/>
+
+                              <Tag>{model === "karlo" ? "Created by Karlo" : "Created by Stable Diffusion"}</Tag>
+
+                              <Divider style={{ width: "100%", marginTop: 8, marginBottom: 8 }}/>
+
+                              <Button
+                                onClick={handleRegenerate}
+                                icon={<SyncOutlined />}
+                                disabled={loading || loadingRandom}
+                              >
+                                  Generate Again
+                              </Button>
+
+                              <Button
+                                disabled={loading}
+                                loading={loadingRandom}
+                                icon="🎲 "
+                                onClick={handleGenerateRandom}
+                              >
+                                  Generate Random
+                              </Button>
+                          </Space>
+                      </Card>
+                  </div>
+              </Col>
+          </Row>
       </StyledDiv>
     )
 }
