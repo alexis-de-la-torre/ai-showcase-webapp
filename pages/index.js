@@ -52,8 +52,8 @@ const StyledDiv = styled("div")`
   }
 
   @media (min-width: 1100px) {
-    padding-right: 12vw;
-    padding-left: 12vw;
+    padding-right: 8vw;
+    padding-left: 8vw;
   }
 `
 
