@@ -52,8 +52,8 @@ const StyledDiv = styled("div")`
   }
 
   @media (min-width: 1100px) {
-    padding-right: 10vw;
-    padding-left: 10vw;
+    padding-right: 12vw;
+    padding-left: 12vw;
   }
 `
 
@@ -323,7 +323,7 @@ function GeneratePage() {
     return (
       <StyledDiv>
           {contextHolder}
-          <Row gutter={[48, 16]}>
+          <Row gutter={[62, 16]}>
               <Col lg={12} style={{width: "100%"}}>
                   <Space direction="vertical" style={{width: "100%"}}>
                       <StyledAlert
